@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "spawnenhancements",
+  "version": "${version}",
+  "name": "Spawn Enhancements",
+  "description": "Adds in-game spawn protection manipulation",
+  "authors": [
+    "macbrayne"
+  ],
+  "contact": {
+    "homepage": "https://github.com/macbrayne/spawn-enhancements",
+    "sources": "https://github.com/macbrayne/spawn-enhancements"
+  },
+  "license": "MIT",
+  "environment": "server",
+  "entrypoints": {
+    "server": [
+      "de.macbrayne.fabric.spawnenhancements.SpawnEnhancements"
+    ]
+  },
+  "mixins": [
+    "spawnenhancements.mixins.json"
+  ],
+  "depends": {
+    "java": ">=16",
+    "minecraft": "1.17.x",
+    "fabricloader": ">=0.11.6",
+    "fabric-api-base": "*",
+    "fabric-command-api-v1": "*",
+    "fabric-lifecycle-events-v1": "*"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "de.macbrayne.fabric.spawnenhancements.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MinecraftDedicatedServerMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
