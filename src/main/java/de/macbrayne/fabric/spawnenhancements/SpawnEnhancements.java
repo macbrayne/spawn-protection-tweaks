@@ -1,6 +1,6 @@
 package de.macbrayne.fabric.spawnenhancements;
 
-import de.macbrayne.fabric.spawnenhancements.utils.CommandRegistry;
+import de.macbrayne.fabric.spawnenhancements.command.CommandRegistry;
 import de.macbrayne.fabric.spawnenhancements.utils.ServerLifecycle;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.EnvType;

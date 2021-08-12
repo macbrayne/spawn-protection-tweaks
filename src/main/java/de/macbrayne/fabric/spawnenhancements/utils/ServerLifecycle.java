@@ -25,7 +25,7 @@ public class ServerLifecycle {
         reloadConfig();
     }
 
-    static void reloadConfig() {
+    public static void reloadConfig() {
         ModConfig config = new ModConfig();
         try {
             if (configFile.exists()) {
@@ -41,7 +41,7 @@ public class ServerLifecycle {
         Reference.setConfig(config);
     }
 
-    static void saveConfig() {
+    public static void saveConfig() {
         try {
             Files.writeString(configFile.toPath(), gson.toJson(Reference.getConfig()));
         } catch (IOException e) {
