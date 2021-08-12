@@ -128,6 +128,22 @@ public class CommandRegistry {
                 })
                 .build();
 
+        LiteralCommandNode<ServerCommandSource> alertNode = CommandManager
+                .literal("alert")
+                .requires(source -> Permissions.check(source, "spawnenhancements.spawnprotection.alert", 2))
+                .executes(context -> {
+                    context.getSource().sendFeedback(Text.of("The action bar alert is currently " + (Reference.getConfig().alert ? "enabled" : "not enabled")), false);
+                    return 1;
+                })
+                .then(CommandManager.argument("value", BoolArgumentType.bool()).executes(context -> {
+                    Reference.getConfig().alert = context.getArgument("value", Boolean.class);
+                    ServerLifecycle.saveConfig();
+                    String action = Reference.getConfig().alert ? "Enabled" : "Disabled";
+                    context.getSource().sendFeedback(Text.of(action + " the action bar alert"), true);
+                    return 1;
+                }))
+                .build();
+
         whitelistNode.addChild(whitelistAddNode);
         whitelistNode.addChild(whitelistRemoveNode);
         dispatcher.getRoot().addChild(spawnEnhancementsNode);
@@ -135,6 +151,7 @@ public class CommandRegistry {
         spawnEnhancementsNode.addChild(radiusNode);
         spawnEnhancementsNode.addChild(whitelistNode);
         spawnEnhancementsNode.addChild(reloadNode);
+        spawnEnhancementsNode.addChild(alertNode);
     }
 
     private static String getWorldKey(CommandContext<ServerCommandSource> context) {
