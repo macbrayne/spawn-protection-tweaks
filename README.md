@@ -28,3 +28,6 @@ The mod is licensed under the [MIT License](LICENSE)
 
 ### Configure the radius of the Spawn Protection
 * /spawnenhancements radius
+
+### Configure the action bar alert
+* /spawnenhancements alert
