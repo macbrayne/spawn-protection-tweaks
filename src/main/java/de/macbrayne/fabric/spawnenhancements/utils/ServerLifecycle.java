@@ -1,7 +1,7 @@
 package de.macbrayne.fabric.spawnenhancements.utils;
 
-import com.moandjiezana.toml.Toml;
-import com.moandjiezana.toml.TomlWriter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import de.macbrayne.fabric.spawnenhancements.Reference;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resource.ServerResourceManager;
@@ -9,9 +9,11 @@ import net.minecraft.server.MinecraftServer;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 public class ServerLifecycle {
-    private static final File configFile = new File(FabricLoader.getInstance().getConfigDir().toFile(), "spawnenhancements.toml");
+    private static final File configFile = new File(FabricLoader.getInstance().getConfigDir().toFile(), "spawnenhancements.json");
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     @SuppressWarnings("unused")
     public static void onStart(MinecraftServer minecraftServer) {
@@ -27,11 +29,12 @@ public class ServerLifecycle {
         ModConfig config = new ModConfig();
         try {
             if (configFile.exists()) {
-                config = new Toml().read(configFile).to(ModConfig.class);
+                String jsonString = new String(Files.readAllBytes(configFile.toPath()));
+                config = gson.fromJson(jsonString, ModConfig.class);
             } else {
                 config = new ModConfig();
             }
-            new TomlWriter().write(config, configFile);
+            Files.writeString(configFile.toPath(), gson.toJson(config));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -40,7 +43,7 @@ public class ServerLifecycle {
 
     static void saveConfig() {
         try {
-            new TomlWriter().write(Reference.getConfig(), configFile);
+            Files.writeString(configFile.toPath(), gson.toJson(Reference.getConfig()));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -13,11 +13,11 @@ public class SpawnProtection {
     public static void isSpawnProtected(ServerWorld world, BlockPos pos, PlayerEntity player, CallbackInfoReturnable<Boolean> cir) {
         if(Reference.getConfig().enabled) {
             String worldKey = world.getRegistryKey().getValue().toString();
-            if(Reference.getConfig().whitelist.parallelStream().noneMatch(worldKey::equals)) {
+            if(Reference.getConfig().whitelist.keySet().parallelStream().noneMatch(worldKey::equals)) {
                 cir.setReturnValue(false);
                 return;
             }
-            if(Reference.getConfig().radius <= 0) {
+            if(Reference.getConfig().whitelist.get(worldKey).radius <= 0) {
                 cir.setReturnValue(false);
                 return;
             }
@@ -29,7 +29,7 @@ public class SpawnProtection {
             BlockPos spawnPosition = world.getSpawnPos();
             int relativeX = MathHelper.abs(pos.getX() - spawnPosition.getX());
             int relativeY = MathHelper.abs(pos.getZ() - spawnPosition.getZ());
-            boolean isSpawnProtected = Math.max(relativeX, relativeY) <= Reference.getConfig().radius;
+            boolean isSpawnProtected = Math.max(relativeX, relativeY) <= Reference.getConfig().whitelist.get(worldKey).radius;
             if(isSpawnProtected && Reference.getConfig().actionBarMessage) {
                 player.sendMessage(Text.of("This block is protected by spawn protection"), true);
             }
