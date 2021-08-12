@@ -29,7 +29,7 @@ public class CommandRegistry {
 
         LiteralCommandNode<ServerCommandSource> enabledNode = CommandManager
                 .literal("enabled")
-                .requires(source -> Permissions.check(source, "spawnenhancements.enabled", 2))
+                .requires(source -> Permissions.check(source, "spawnenhancements.spawnprotection.enabled", 2))
                 .executes(context -> {
                     context.getSource().sendFeedback(Text.of("SpawnEnhancements is currently " + (Reference.getConfig().enabled ? "enabled" : "not enabled")), false);
                     return 1;
@@ -45,7 +45,7 @@ public class CommandRegistry {
 
         LiteralCommandNode<ServerCommandSource> whitelistNode = CommandManager
                 .literal("whitelist")
-                .requires(source -> Permissions.check(source, "spawnenhancements.whitelist", 2))
+                .requires(source -> Permissions.check(source, "spawnenhancements.spawnprotection.whitelist", 2))
                 .executes(context -> {
                     StringBuilder stringBuilder = new StringBuilder();
                     stringBuilder.append("Whitelisted Dimensions:");
@@ -57,7 +57,7 @@ public class CommandRegistry {
 
         LiteralCommandNode<ServerCommandSource> whitelistAddNode = CommandManager
                 .literal("add")
-                .requires(source -> Permissions.check(source, "spawnenhancements.radius", 2))
+                .requires(source -> Permissions.check(source, "spawnenhancements.spawnprotection.whitelist.add", 2))
                 .then(CommandManager.argument("dimension", DimensionArgumentType.dimension()).executes(context -> {
                     String argument = context.getArgument("dimension", Identifier.class).toString();
                     if(!Reference.getConfig().whitelist.add(argument)) {
@@ -71,7 +71,7 @@ public class CommandRegistry {
 
             LiteralCommandNode<ServerCommandSource> whitelistRemoveNode = CommandManager
                 .literal("remove")
-                .requires(source -> Permissions.check(source, "spawnenhancements.radius", 2))
+                .requires(source -> Permissions.check(source, "spawnenhancements.spawnprotection.whitelist.remove", 2))
                 .then(CommandManager.argument("dimension", DimensionArgumentType.dimension()).executes(context -> {
                     String argument = context.getArgument("dimension", Identifier.class).toString();
                     if(!Reference.getConfig().whitelist.remove(argument)) {
