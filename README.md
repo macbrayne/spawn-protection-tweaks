@@ -23,8 +23,8 @@ The mod is licensed under the [MIT License](LICENSE)
 
 ### Configure the list of dimensions the Spawn Protection should affect
 * /spawnenhancements whitelist
-* /spawnenhancements whitelist add <dimensionid>
-* /spawnenhancements whitelist remove <dimensionid>
+* /spawnenhancements whitelist add \<dimensionid\>
+* /spawnenhancements whitelist remove \<dimensionid\>
 
 ### Configure the radius of the Spawn Protection
 * /spawnenhancements radius
