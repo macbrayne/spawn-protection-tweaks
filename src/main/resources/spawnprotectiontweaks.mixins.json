@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "de.macbrayne.fabric.spawnenhancements.mixin",
+  "package": "de.macbrayne.fabric.spawnprotectiontweaks.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "MinecraftDedicatedServerMixin"

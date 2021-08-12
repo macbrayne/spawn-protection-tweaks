@@ -1,25 +1,25 @@
 {
   "schemaVersion": 1,
-  "id": "spawnenhancements",
+  "id": "spawnprotectiontweaks",
   "version": "${version}",
-  "name": "Spawn Enhancements",
+  "name": "SpawnProtectionTweaks",
   "description": "Adds in-game spawn protection manipulation",
   "authors": [
     "macbrayne"
   ],
   "contact": {
-    "homepage": "https://github.com/macbrayne/spawn-enhancements",
-    "sources": "https://github.com/macbrayne/spawn-enhancements"
+    "homepage": "https://github.com/macbrayne/spawn-protection-tweaks",
+    "sources": "https://github.com/macbrayne/spawn-protection-tweaks"
   },
   "license": "MIT",
   "environment": "server",
   "entrypoints": {
     "server": [
-      "de.macbrayne.fabric.spawnenhancements.SpawnEnhancements"
+      "de.macbrayne.fabric.spawnprotectiontweaks.SpawnProtectionTweaks"
     ]
   },
   "mixins": [
-    "spawnenhancements.mixins.json"
+    "spawnprotectiontweaks.mixins.json"
   ],
   "depends": {
     "java": ">=16",

@@ -1,7 +1,6 @@
-package de.macbrayne.fabric.spawnenhancements.mixin;
+package de.macbrayne.fabric.spawnprotectiontweaks.mixin;
 
-import de.macbrayne.fabric.spawnenhancements.Reference;
-import de.macbrayne.fabric.spawnenhancements.server.SpawnProtection;
+import de.macbrayne.fabric.spawnprotectiontweaks.server.SpawnProtection;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.dedicated.MinecraftDedicatedServer;
 import net.minecraft.server.world.ServerWorld;

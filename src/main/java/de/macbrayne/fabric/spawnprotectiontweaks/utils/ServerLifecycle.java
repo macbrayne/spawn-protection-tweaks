@@ -1,8 +1,8 @@
-package de.macbrayne.fabric.spawnenhancements.utils;
+package de.macbrayne.fabric.spawnprotectiontweaks.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import de.macbrayne.fabric.spawnenhancements.Reference;
+import de.macbrayne.fabric.spawnprotectiontweaks.Reference;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resource.ServerResourceManager;
 import net.minecraft.server.MinecraftServer;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 public class ServerLifecycle {
-    private static final File configFile = new File(FabricLoader.getInstance().getConfigDir().toFile(), "spawnenhancements.json");
+    private static final File configFile = new File(FabricLoader.getInstance().getConfigDir().toFile(), "spawnprotectiontweaks.json");
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     @SuppressWarnings("unused")

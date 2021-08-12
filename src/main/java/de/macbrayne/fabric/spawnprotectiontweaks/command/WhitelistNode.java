@@ -1,10 +1,10 @@
-package de.macbrayne.fabric.spawnenhancements.command;
+package de.macbrayne.fabric.spawnprotectiontweaks.command;
 
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.tree.LiteralCommandNode;
-import de.macbrayne.fabric.spawnenhancements.Reference;
-import de.macbrayne.fabric.spawnenhancements.utils.ModConfig;
-import de.macbrayne.fabric.spawnenhancements.utils.ServerLifecycle;
+import de.macbrayne.fabric.spawnprotectiontweaks.Reference;
+import de.macbrayne.fabric.spawnprotectiontweaks.utils.ModConfig;
+import de.macbrayne.fabric.spawnprotectiontweaks.utils.ServerLifecycle;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.command.argument.DimensionArgumentType;
 import net.minecraft.server.command.CommandManager;
@@ -19,7 +19,7 @@ public class WhitelistNode {
     static LiteralCommandNode<ServerCommandSource> get() {
         LiteralCommandNode<ServerCommandSource> whitelistNode = CommandManager
                 .literal("whitelist")
-                .requires(source -> Permissions.check(source, "spawnenhancements.spawnprotection.whitelist", 2))
+                .requires(source -> Permissions.check(source, "spawnprotectiontweaks.spawnprotection.whitelist", 2))
                 .executes(context -> {
                     StringBuilder stringBuilder = new StringBuilder();
                     stringBuilder.append("Whitelisted Dimensions:");
@@ -31,7 +31,7 @@ public class WhitelistNode {
 
         LiteralCommandNode<ServerCommandSource> whitelistAddNode = CommandManager
                 .literal("add")
-                .requires(source -> Permissions.check(source, "spawnenhancements.spawnprotection.whitelist.add", 2))
+                .requires(source -> Permissions.check(source, "spawnprotectiontweaks.spawnprotection.whitelist.add", 2))
                 .then(CommandManager.argument("dimension", DimensionArgumentType.dimension()).executes(context -> {
                     String argument = context.getArgument("dimension", Identifier.class).toString();
                     if (Reference.getConfig().whitelist.containsKey(argument)) {
@@ -46,7 +46,7 @@ public class WhitelistNode {
 
         LiteralCommandNode<ServerCommandSource> whitelistRemoveNode = CommandManager
                 .literal("remove")
-                .requires(source -> Permissions.check(source, "spawnenhancements.spawnprotection.whitelist.remove", 2))
+                .requires(source -> Permissions.check(source, "spawnprotectiontweaks.spawnprotection.whitelist.remove", 2))
                 .then(CommandManager.argument("dimension", DimensionArgumentType.dimension()).executes(context -> {
                     String argument = context.getArgument("dimension", Identifier.class).toString();
                     if (!Reference.getConfig().whitelist.containsKey(argument)) {

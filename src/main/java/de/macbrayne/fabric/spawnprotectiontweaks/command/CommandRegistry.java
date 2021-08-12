@@ -1,4 +1,4 @@
-package de.macbrayne.fabric.spawnenhancements.command;
+package de.macbrayne.fabric.spawnprotectiontweaks.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
@@ -7,8 +7,8 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.tree.LiteralCommandNode;
-import de.macbrayne.fabric.spawnenhancements.Reference;
-import de.macbrayne.fabric.spawnenhancements.utils.ServerLifecycle;
+import de.macbrayne.fabric.spawnprotectiontweaks.Reference;
+import de.macbrayne.fabric.spawnprotectiontweaks.utils.ServerLifecycle;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.command.argument.DimensionArgumentType;
 import net.minecraft.server.command.CommandManager;
@@ -16,32 +16,32 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class CommandRegistry {
     private static final DynamicCommandExceptionType DIMENSION_NOT_WHITELISTED = new DynamicCommandExceptionType(o -> Text.of("Dimension " + o + " not whitelisted"));
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, @SuppressWarnings("unused") boolean dedicated) {
+        ServerLifecycle.reloadConfig();
         LiteralCommandNode<ServerCommandSource> enabledNode = CommandManager
                 .literal("enabled")
-                .requires(source -> Permissions.check(source, "spawnenhancements.spawnprotection.enabled", 2))
+                .requires(source -> Permissions.check(source, "spawnprotectiontweaks.spawnprotection.enabled", 2))
                 .executes(context -> {
-                    context.getSource().sendFeedback(Text.of("SpawnEnhancements is currently " + (Reference.getConfig().enabled ? "enabled" : "not enabled")), false);
+                    context.getSource().sendFeedback(Text.of("SpawnProtectionTweaks is currently " + (Reference.getConfig().enabled ? "enabled" : "not enabled")), false);
                     return 1;
                 })
                 .then(CommandManager.argument("value", BoolArgumentType.bool()).executes(context -> {
                     Reference.getConfig().enabled = context.getArgument("value", Boolean.class);
                     ServerLifecycle.saveConfig();
                     String action = Reference.getConfig().enabled ? "Enabled" : "Disabled";
-                    context.getSource().sendFeedback(Text.of(action + " SpawnEnhancements"), true);
+                    context.getSource().sendFeedback(Text.of(action + " SpawnProtectionTweaks"), true);
                     return 1;
                 }))
                 .build();
 
         LiteralCommandNode<ServerCommandSource> radiusNode = CommandManager
                 .literal("radius")
-                .requires(source -> Permissions.check(source, "spawnenhancements.radius", 2))
+                .requires(source -> Permissions.check(source, "spawnprotectiontweaks.radius", 2))
                 .executes(context -> {
                     announceRadius(context, getWorldKey(context));
                     return 1;
@@ -70,7 +70,7 @@ public class CommandRegistry {
 
         LiteralCommandNode<ServerCommandSource> reloadNode = CommandManager
                 .literal("reload")
-                .requires(source -> Permissions.check(source, "spawnenhancements.reload", 2))
+                .requires(source -> Permissions.check(source, "spawnprotectiontweaks.reload", 2))
                 .executes(context -> {
                     ServerLifecycle.reloadConfig();
                     context.getSource().sendFeedback(Text.of("Reloaded config"), true);
@@ -80,7 +80,7 @@ public class CommandRegistry {
 
         LiteralCommandNode<ServerCommandSource> alertNode = CommandManager
                 .literal("alert")
-                .requires(source -> Permissions.check(source, "spawnenhancements.spawnprotection.alert", 2))
+                .requires(source -> Permissions.check(source, "spawnprotectiontweaks.spawnprotection.alert", 2))
                 .executes(context -> {
                     context.getSource().sendFeedback(Text.of("The action bar alert is currently " + (Reference.getConfig().alert ? "enabled" : "not enabled")), false);
                     return 1;
@@ -95,8 +95,8 @@ public class CommandRegistry {
                 .build();
 
         List<LiteralCommandNode<ServerCommandSource>> children = List.of(enabledNode, radiusNode, WhitelistNode.get(), reloadNode, alertNode);
-        addAlias("spawnenhancements", dispatcher, children);
-        if(!Reference.getConfig().alias.isBlank()) {
+        addAlias("spawnprotectiontweaks", dispatcher, children);
+        if(Reference.getConfig().alias != null && !Reference.getConfig().alias.isBlank()) {
             addAlias(Reference.getConfig().alias, dispatcher, children);
         }
     }
@@ -117,16 +117,16 @@ public class CommandRegistry {
     }
 
     private static void addAlias(String literal, CommandDispatcher<ServerCommandSource> dispatcher, List<LiteralCommandNode<ServerCommandSource>> children) {
-        LiteralCommandNode<ServerCommandSource> spawnEnhancementsNode = CommandManager
+        LiteralCommandNode<ServerCommandSource> spawnProtectionTweaksNode = CommandManager
                 .literal(literal)
-                .requires(source -> Permissions.check(source, "spawnenhancements", 2))
+                .requires(source -> Permissions.check(source, "spawnprotectiontweaks", 2))
                 .executes(context -> {
                     ServerCommandSource source = context.getSource();
                     source.sendFeedback(Text.of("TODO: Add help"), true); // TODO: Add help
                     return 1;
                 }).build();
 
-        children.forEach(spawnEnhancementsNode::addChild);
-        dispatcher.getRoot().addChild(spawnEnhancementsNode);
+        children.forEach(spawnProtectionTweaksNode::addChild);
+        dispatcher.getRoot().addChild(spawnProtectionTweaksNode);
     }
 }

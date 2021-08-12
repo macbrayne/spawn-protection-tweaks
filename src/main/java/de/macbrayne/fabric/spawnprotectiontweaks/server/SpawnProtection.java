@@ -1,6 +1,6 @@
-package de.macbrayne.fabric.spawnenhancements.server;
+package de.macbrayne.fabric.spawnprotectiontweaks.server;
 
-import de.macbrayne.fabric.spawnenhancements.Reference;
+import de.macbrayne.fabric.spawnprotectiontweaks.Reference;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -21,7 +21,7 @@ public class SpawnProtection {
                 cir.setReturnValue(false);
                 return;
             }
-            if(Permissions.check(player, "spawnenhancements.override", 1)) {
+            if(Permissions.check(player, "spawnprotectiontweaks.override", 1)) {
                 cir.setReturnValue(false);
                 return;
             }

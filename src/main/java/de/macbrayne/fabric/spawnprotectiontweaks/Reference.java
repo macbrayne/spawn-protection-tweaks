@@ -1,6 +1,6 @@
-package de.macbrayne.fabric.spawnenhancements;
+package de.macbrayne.fabric.spawnprotectiontweaks;
 
-import de.macbrayne.fabric.spawnenhancements.utils.ModConfig;
+import de.macbrayne.fabric.spawnprotectiontweaks.utils.ModConfig;
 
 public class Reference {
     private static ModConfig config;
