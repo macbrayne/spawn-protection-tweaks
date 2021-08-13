@@ -12,7 +12,8 @@ This mod adds the ability for fabric servers to change spawn protection settings
 SpawnProtectionTweaks supports permissions mods like LuckPerms and other mods supporting the [Fabric Permission API](https://github.com/lucko/fabric-permissions-api).
 The permission nodes are formatted in the form ``spawnprotectiontweaks.<module>.<subcommand>.<operation>``
 I.e. ``spawnprotectiontweaks.spawnprotection.whitelist.add``
-Currently all commands reside in the "spawnprotection" module.
+
+Currently, all commands reside in the "spawnprotection" module.
 
 ## [Releases](https://github.com/macbrayne/spawn-protection-tweaks/releases)
 
@@ -33,3 +34,8 @@ The mod is licensed under the [MIT License](LICENSE)
 
 ### Configure the action bar alert
 * /spawnprotectiontweaks alert
+
+## Config
+
+A config exclusive option is ``alias`` which sets an
+optional alias to the spawnprotectiontweaks command
