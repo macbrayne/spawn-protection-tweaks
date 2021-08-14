@@ -1,7 +1,6 @@
-package de.macbrayne.fabric.spawnprotectiontweaks;
+package de.macbrayne.fabric.spawnprotectiontweaks.server;
 
 import de.macbrayne.fabric.spawnprotectiontweaks.command.CommandRegistry;
-import de.macbrayne.fabric.spawnprotectiontweaks.utils.ServerLifecycle;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -9,7 +8,7 @@ import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 
 @Environment(EnvType.SERVER)
-public class SpawnProtectionTweaks implements DedicatedServerModInitializer {
+public class SpawnProtectionTweaksServer implements DedicatedServerModInitializer {
     @Override
     public void onInitializeServer() {
         ServerLifecycleEvents.SERVER_STARTED.register(ServerLifecycle::onStart);

@@ -1,0 +1,21 @@
+{
+  "commands.spawnprotectiontweaks": "TODO: Add help",
+  "commands.spawnprotectiontweaks.enable": "Enabled SpawnProtectionTweaks",
+  "commands.spawnprotectiontweaks.disable": "Disabled SpawnProtectionTweaks",
+  "commands.spawnprotectiontweaks.status.enabled": "SpawnProtectionTweaks is currently enabled",
+  "commands.spawnprotectiontweaks.status.disabled": "SpawnProtectionTweaks is currently disabled",
+  "commands.spawnprotectiontweaks.radius.query": "Current spawn protection radius in %s is %.1f",
+  "commands.spawnprotectiontweaks.radius.dimension.missing": "The dimension %s is currently not whitelisted",
+  "commands.spawnprotectiontweaks.radius.dimension.set": "Set radius in %s to %.1f",
+  "commands.spawnprotectiontweaks.whitelist.add.success": "Added %s to whitelist",
+  "commands.spawnprotectiontweaks.whitelist.add.failed": "Failed to add %s. Is it already whitelisted?",
+  "commands.spawnprotectiontweaks.whitelist.remove.success": "Removed %s from whitelist",
+  "commands.spawnprotectiontweaks.whitelist.remove.failed": "Failed to remove %s. Was the dimension whitelisted?",
+  "commands.spawnprotectiontweaks.whitelist.list": "Whitelisted Dimensions: %s",
+  "commands.spawnprotectiontweaks.actionbar.status.enabled": "The action bar alert is currently enabled",
+  "commands.spawnprotectiontweaks.actionbar.status.disabled": "The action bar alert is currently disabled",
+  "commands.spawnprotectiontweaks.actionbar.enable": "Enabled the action bar alert",
+  "commands.spawnprotectiontweaks.actionbar.disable": "Disabled the action bar alert",
+  "commands.spawnprotectiontweaks.actionbar.message": "This block is protected by spawn protection",
+  "commands.spawnprotectiontweaks.reload": "Reloading config..."
+}

@@ -1,8 +1,9 @@
-package de.macbrayne.fabric.spawnprotectiontweaks.utils;
+package de.macbrayne.fabric.spawnprotectiontweaks.server;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import de.macbrayne.fabric.spawnprotectiontweaks.Reference;
+import de.macbrayne.fabric.spawnprotectiontweaks.utils.ModConfig;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resource.ServerResourceManager;
 import net.minecraft.server.MinecraftServer;
