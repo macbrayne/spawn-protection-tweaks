@@ -8,10 +8,10 @@
   "commands.spawnprotectiontweaks.dimensions.radius.set": "Set radius in %s to %.1f",
   "commands.spawnprotectiontweaks.dimensions.list": "Whitelisted Dimensions: %s",
   "commands.spawnprotectiontweaks.dimensions.list.format": "%s: %.1f",
-  "commands.spawnprotectiontweaks.actionbar.status.enabled": "The action bar alert is currently enabled",
-  "commands.spawnprotectiontweaks.actionbar.status.disabled": "The action bar alert is currently disabled",
-  "commands.spawnprotectiontweaks.actionbar.enable": "Enabled the action bar alert",
-  "commands.spawnprotectiontweaks.actionbar.disable": "Disabled the action bar alert",
+  "commands.spawnprotectiontweaks.dimensions.actionbar.status.enabled": "The action bar alert is currently enabled",
+  "commands.spawnprotectiontweaks.dimensions.actionbar.status.disabled": "The action bar alert is currently disabled",
+  "commands.spawnprotectiontweaks.dimensions.actionbar.enable": "Enabled the action bar alert",
+  "commands.spawnprotectiontweaks.dimensions.actionbar.disable": "Disabled the action bar alert",
   "commands.spawnprotectiontweaks.actionbar.message": "This block is protected by spawn protection",
   "commands.spawnprotectiontweaks.reload": "Reloading config..."
 }

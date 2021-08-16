@@ -43,25 +43,7 @@ public class CommandRegistry {
                 })
                 .build();
 
-        LiteralCommandNode<ServerCommandSource> alertNode = CommandManager
-                .literal("alert")
-                .requires(source -> Permissions.check(source, "spawnprotectiontweaks.spawnprotection.alert", 2))
-                .executes(context -> {
-                    context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation(context.getSource(), "commands.spawnprotectiontweaks.actionbar.status." + (Reference.getConfig().alert ? "enabled" : "disabled")), false);
-                    return 1;
-                })
-                .then(CommandManager.argument("value", BoolArgumentType.bool()).executes(context -> {
-                    boolean value = context.getArgument("value", Boolean.class);
-                    Reference.getConfig().alert = value;
-                    ServerLifecycle.saveConfig();
-                    BaseText action = LanguageHelper.getOptionalTranslation(context.getSource(),
-                            "commands.spawnprotectiontweaks.actionbar." + (value ? "enable" : "disable"));
-                    context.getSource().sendFeedback(action, true);
-                    return 1;
-                }))
-                .build();
-
-        List<LiteralCommandNode<ServerCommandSource>> children = List.of(enabledNode, DimensionNode.get(), reloadNode, alertNode);
+        List<LiteralCommandNode<ServerCommandSource>> children = List.of(enabledNode, DimensionNode.get(), reloadNode);
         addAlias("spawnprotectiontweaks", dispatcher, children);
         if(Reference.getConfig().alias != null && !Reference.getConfig().alias.isBlank()) {
             addAlias(Reference.getConfig().alias, dispatcher, children);
