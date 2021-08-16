@@ -12,7 +12,7 @@ plugins {
     id "maven-publish"
     id "com.modrinth.minotaur" version "1.2.1"
 }
-apply plugin: "me.hypherionmc.cursegradle"
+apply(plugin: "me.hypherionmc.cursegradle")
 
 repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
@@ -25,9 +25,9 @@ version = "${project.mod_version}+${project.minecraft_version}"
 group = project.maven_group
 
 dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.minecraft_version}+build.${project.yarn_build}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    minecraft("com.mojang:minecraft:${project.minecraft_version}")
+    mappings("net.fabricmc:yarn:${project.minecraft_version}+build.${project.yarn_build}:v2")
+    modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
 
     Set<String> apiModules = [
             "fabric-api-base",
@@ -43,18 +43,18 @@ dependencies {
 
 
     // Permissions API
-    modImplementation "me.lucko:fabric-permissions-api:${project.permissions_api_version}"
-    modApi 	"me.lucko:fabric-permissions-api:${project.permissions_api_version}"
-    include	"me.lucko:fabric-permissions-api:${project.permissions_api_version}"
+    modImplementation("me.lucko:fabric-permissions-api:${project.permissions_api_version}")
+    modApi("me.lucko:fabric-permissions-api:${project.permissions_api_version}")
+    include("me.lucko:fabric-permissions-api:${project.permissions_api_version}")
 
-    compileOnly "org.jetbrains:annotations:21.0.1"
+    compileOnly("org.jetbrains:annotations:21.0.1")
 }
 
 processResources {
     inputs.property "version", project.version
 
     filesMatching("fabric.mod.json") {
-        expand "version": project.version
+        expand("version": project.version)
     }
 }
 
