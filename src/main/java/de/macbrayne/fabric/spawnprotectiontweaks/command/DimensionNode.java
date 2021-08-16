@@ -32,7 +32,9 @@ public class DimensionNode {
                     Reference.getConfig().dimensions.keySet().stream()
                             .sorted()
                             .forEach(dimensionKey -> {
-                                if (Reference.getConfig().dimensions.get(dimensionKey).radius == 0) {
+                                ModConfig.DimensionConfig dimensionConfig = Reference.getConfig().dimensions.get(dimensionKey);
+                                if (dimensionConfig.radius == Reference.getConfig().defaultConfig.radius
+                                && dimensionConfig.actionBar == Reference.getConfig().defaultConfig.actionBar) {
                                     return;
                                 }
                                 stringBuilder
@@ -40,7 +42,8 @@ public class DimensionNode {
                                         .append(LanguageHelper
                                                 .format("commands.spawnprotectiontweaks.dimensions.list.format",
                                                         dimensionKey,
-                                                        Reference.getConfig().dimensions.get(dimensionKey).radius));
+                                                        Reference.getConfig().dimensions.get(dimensionKey).radius,
+                                                        Reference.getConfig().dimensions.get(dimensionKey).actionBar));
                             });
                     context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation(context.getSource(), "commands.spawnprotectiontweaks.dimensions.list", stringBuilder.toString()), false);
                     return Reference.getConfig().dimensions.size();
@@ -63,7 +66,10 @@ public class DimensionNode {
                                         .append(LanguageHelper
                                                 .format("commands.spawnprotectiontweaks.dimensions.list.format",
                                                         worldKey,
-                                                        containsKey ? Reference.getConfig().dimensions.get(worldKey).radius : "0"));
+                                                        containsKey ? Reference.getConfig().dimensions.get(worldKey).radius :
+                                                                Reference.getConfig().defaultConfig.radius,
+                                                        containsKey ? Reference.getConfig().dimensions.get(worldKey).actionBar :
+                                                                Reference.getConfig().defaultConfig.actionBar));
                             });
                     context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation(context.getSource(), "commands.spawnprotectiontweaks.dimensions.list", stringBuilder.toString()), false);
                     return context.getSource().getWorldKeys().size();
@@ -81,7 +87,7 @@ public class DimensionNode {
                         .then(CommandManager.argument("value", FloatArgumentType.floatArg(0)).executes(context -> {
                             DimensionArgumentType.getDimensionArgument(context, "dimension");
                             String argument = context.getArgument("dimension", Identifier.class).toString();
-                            Reference.getConfig().dimensions.putIfAbsent(argument, new ModConfig.DimensionConfig());
+                            Reference.getConfig().dimensions.putIfAbsent(argument, ModConfig.DimensionConfig.create());
                             Reference.getConfig().dimensions.get(argument).radius =
                                     context.getArgument("value", Float.class);
                             ServerLifecycle.saveConfig();
@@ -100,14 +106,14 @@ public class DimensionNode {
                 .requires(source -> Permissions.check(source, "spawnprotectiontweaks.spawnprotection.radius.query", 2))
                 .executes(context -> {
                     String worldKey = context.getSource().getWorld().getRegistryKey().getValue().toString();
-                    Reference.getConfig().dimensions.putIfAbsent(worldKey, new ModConfig.DimensionConfig());
+                    Reference.getConfig().dimensions.putIfAbsent(worldKey, ModConfig.DimensionConfig.create());
                     announceRadius(context, worldKey);
                     return 1;
                 })
                 .then(CommandManager.argument("dimension", DimensionArgumentType.dimension()).executes(context -> {
                     DimensionArgumentType.getDimensionArgument(context, "dimension");
                     String argument = context.getArgument("dimension", Identifier.class).toString();
-                    Reference.getConfig().dimensions.putIfAbsent(argument, new ModConfig.DimensionConfig());
+                    Reference.getConfig().dimensions.putIfAbsent(argument, ModConfig.DimensionConfig.create());
                     announceRadius(context, argument);
                     return 1;
                 }))
@@ -141,14 +147,14 @@ public class DimensionNode {
                 .requires(source -> Permissions.check(source, "spawnprotectiontweaks.spawnprotection.alert.query", 2))
                 .executes(context -> {
                     String worldKey = context.getSource().getWorld().getRegistryKey().getValue().toString();
-                    Reference.getConfig().dimensions.putIfAbsent(worldKey, new ModConfig.DimensionConfig());
+                    Reference.getConfig().dimensions.putIfAbsent(worldKey, ModConfig.DimensionConfig.create());
                     announceActionBarStatus(context, worldKey);
                     return 1;
                 })
                 .then(CommandManager.argument("dimension", DimensionArgumentType.dimension()).executes(context -> {
                     DimensionArgumentType.getDimensionArgument(context, "dimension");
                     String argument = context.getArgument("dimension", Identifier.class).toString();
-                    Reference.getConfig().dimensions.putIfAbsent(argument, new ModConfig.DimensionConfig());
+                    Reference.getConfig().dimensions.putIfAbsent(argument, ModConfig.DimensionConfig.create());
                     announceActionBarStatus(context, argument);
                     return 1;
                 }))

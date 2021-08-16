@@ -17,11 +17,8 @@ public class SpawnProtection {
         if(Reference.getConfig().enabled) {
             String worldKey = world.getRegistryKey().getValue().toString();
             HashMap<String, ModConfig.DimensionConfig> dimensions = Reference.getConfig().dimensions;
-            if(dimensions.keySet().parallelStream().noneMatch(worldKey::equals)) {
-                cir.setReturnValue(false);
-                return;
-            }
-            ModConfig.DimensionConfig dimensionConfig = dimensions.get(worldKey);
+            boolean configured = dimensions.keySet().parallelStream().anyMatch(worldKey::equals);
+            ModConfig.DimensionConfig dimensionConfig = configured ? dimensions.get(worldKey) : Reference.getConfig().defaultConfig;
             if(dimensionConfig.radius <= 0) {
                 cir.setReturnValue(false);
                 return;
