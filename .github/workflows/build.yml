@@ -9,7 +9,7 @@ on:
       - '**/src/**'
       - '**/build.gradle'
       - '**/gradle.properties'
-      - '**/settings.gradle'
+      - '**/settings.gradle.kts'
       - .github/workflows/build.yml
       - LICENCE
   pull_request:
@@ -17,7 +17,7 @@ on:
       - '**/src/**'
       - '**/build.gradle'
       - '**/gradle.properties'
-      - '**/settings.gradle'
+      - '**/settings.gradle.kts'
       - .github/workflows/build.yml
       - LICENCE
 
