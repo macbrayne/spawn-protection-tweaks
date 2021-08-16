@@ -6,6 +6,13 @@
 
 This mod adds the ability for fabric servers to change spawn protection settings on the fly overriding the vanilla configuration.
 
+## Server-side
+
+This mod can be used on both server and client however it is not required to install it on the client.
+The only difference in behaviour is that compatible clients are not bound to the ``en_us`` locale
+and can get translations based on their selected language.
+
+Currently, only ``en_us`` is supported though.
 
 ## Permissions
 
