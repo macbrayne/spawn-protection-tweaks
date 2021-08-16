@@ -1,0 +1,57 @@
+# Builds and published to both CurseForge and Modrinth
+
+name: Publish
+# On releases (or manual)
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+
+    runs-on: ubuntu-latest
+
+    env: # Or as an environment variable
+      MODRINTH: ${{ secrets.MODRINTH }}
+      CURSEFORGE: ${{ secrets.CURSEFORGE }}
+      CHANGELOG: ${{ github.event.release.body }}
+
+    steps:
+      - name: ✨ Checkout repository
+        uses: actions/checkout@v2
+
+      - name: 🛂 Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: 🏗 Set up JDK 16
+        uses: actions/setup-java@v2
+        with:
+          java-version: 16
+          distribution: adopt
+
+      - name: 📷 Begin Gradle cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: 🔨 Build artifacts
+        run: gradle clean build
+        
+      - name: 📢 Publish artifacts
+        run: gradle publishModrinth curseforge
+
+      - name: 📦 Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifacts
+          path: '**/build/libs/'
+
+      - name: 🧨 Cleanup Gradle cache
+        run: |
+          rm -f ~/.gradle/caches/modules-2/modules-2.lock
+          rm -f ~/.gradle/caches/modules-2/gc.properties
