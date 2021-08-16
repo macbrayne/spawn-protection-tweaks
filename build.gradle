@@ -87,10 +87,10 @@ publishing {
         mavenJava(MavenPublication) {
             // add all the jars that should be included when publishing to maven
             artifact(remapJar) {
-                builtBy remapJar
+                builtBy(remapJar)
             }
             artifact(sourcesJar) {
-                builtBy remapSourcesJar
+                builtBy(remapSourcesJar)
             }
         }
     }
@@ -127,8 +127,8 @@ curseforge {
         changelog = System.getenv("CHANGELOG") != null ? System.getenv("CHANGELOG") : ""
         changelogType = "markdown"
         releaseType = "beta"
-        addGameVersion "Fabric"
-        addGameVersion project.minecraft_version
+        addGameVersion("Fabric")
+        addGameVersion(project.minecraft_version)
         relations {
             requiredDependency "fabric-api" // Fabric API is required
             tool "luckperms" // Luckperms is a compatible tool
@@ -137,7 +137,6 @@ curseforge {
 
         mainArtifact(remapJar) {
             displayName = "${archivesBaseName}-${version}"
-            debug = true
         }
     }
 }
