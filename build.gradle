@@ -111,7 +111,7 @@ task publishModrinth (type: TaskModrinthUpload) {
 
     token = System.getenv("MODRINTH") // Use an environment property if releasing your source code on GitHub!
     projectId = '116VbfxT' // The ID of your modrinth project, slugs will not work.
-    versionName = project.version // The version of the mod to upload.
+    versionName = "${archivesBaseName}-${version}" // The version of the mod to upload.
     versionNumber = project.mod_version // The version of the mod to upload.
     changelog = System.getenv("CHANGELOG")
     versionType = "BETA"
@@ -136,7 +136,8 @@ curseforge {
         }
 
         mainArtifact(remapJar) {
-            displayName = "${archivesBaseName}_${version}"
+            displayName = "${archivesBaseName}-${version}"
+            debug = true
         }
     }
 }
