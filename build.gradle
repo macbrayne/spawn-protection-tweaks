@@ -3,19 +3,19 @@ buildscript {
         maven { url = "https://maven.explodingcreeper.me/" }
     }
     dependencies {
-        classpath 'me.hypherionmc:CurseGradle:2.0.4'
+        classpath "me.hypherionmc:CurseGradle:2.0.4"
     }
 }
 
 plugins {
-    id 'fabric-loom' version '0.9-SNAPSHOT'
-    id 'maven-publish'
+    id "fabric-loom" version "0.9-SNAPSHOT"
+    id "maven-publish"
     id "com.modrinth.minotaur" version "1.2.1"
 }
-apply plugin: 'me.hypherionmc.cursegradle'
+apply plugin: "me.hypherionmc.cursegradle"
 
 repositories {
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 }
 
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_16
@@ -110,29 +110,29 @@ task publishModrinth (type: TaskModrinthUpload) {
     }
 
     token = System.getenv("MODRINTH") // Use an environment property if releasing your source code on GitHub!
-    projectId = '116VbfxT' // The ID of your modrinth project, slugs will not work.
+    projectId = "116VbfxT" // The ID of your modrinth project, slugs will not work.
     versionName = "${archivesBaseName}-${version}" // The version of the mod to upload.
     versionNumber = project.mod_version // The version of the mod to upload.
     changelog = System.getenv("CHANGELOG")
     versionType = "BETA"
     uploadFile = remapJar // This links to a task that builds your mod jar and sets "uploadFile" to the mod jar.
     addGameVersion(project.minecraft_version) // Any minecraft version.
-    addLoader('fabric')
+    addLoader("fabric")
 }
 
 curseforge {
     project {
-        id = '514837'
-        apiKey = '34afed91-090d-436e-a268-c4765be2bd66' // System.getenv("CURSEFORGE")
+        id = "514837"
+        apiKey = System.getenv("CURSEFORGE")
         changelog = System.getenv("CHANGELOG") != null ? System.getenv("CHANGELOG") : ""
-        changelogType = 'markdown'
-        releaseType = 'beta'
+        changelogType = "markdown"
+        releaseType = "beta"
         addGameVersion "Fabric"
         addGameVersion project.minecraft_version
         relations {
-            requiredDependency 'fabric-api' // Fabric API is required
-            tool 'luckperms' // Luckperms is a compatible tool
-            tool 'cyber-permissions' // Cyber-Permissions is a compatible tool
+            requiredDependency "fabric-api" // Fabric API is required
+            tool "luckperms" // Luckperms is a compatible tool
+            tool "cyber-permissions" // Cyber-Permissions is a compatible tool
         }
 
         mainArtifact(remapJar) {
