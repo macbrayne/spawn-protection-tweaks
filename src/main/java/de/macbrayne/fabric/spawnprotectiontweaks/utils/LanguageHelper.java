@@ -18,9 +18,13 @@ public class LanguageHelper {
 
     public static BaseText getOptionalTranslation(final Entity source, final String translationKey, final Object... args) {
         if (!acceptsTranslations(source)) {
-            return new LiteralText(String.format(Language.getInstance().get(translationKey), args));
+            return new LiteralText(format(translationKey, args));
         }
         return new TranslatableText(translationKey, args);
+    }
+
+    public static String format(final String translationKey, final Object... args) {
+        return String.format(Language.getInstance().get(translationKey), args);
     }
 
     private static boolean acceptsTranslations(@Nullable Entity entity) {
