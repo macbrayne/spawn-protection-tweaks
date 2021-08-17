@@ -1,6 +1,7 @@
 package de.macbrayne.fabric.spawnprotectiontweaks.utils;
 
 import de.macbrayne.fabric.spawnprotectiontweaks.Reference;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.HashMap;
 
@@ -14,14 +15,23 @@ public class ModConfig {
         DimensionConfig() {
         }
 
+        public BlockPos position = new BlockPos(0, 60, 0);
         public float radius = 0;
         public boolean actionBar = true;
+    }
 
-        public static DimensionConfig create() {
-            DimensionConfig config = new DimensionConfig();
-            config.actionBar = Reference.getConfig().defaultConfig.actionBar;
-            config.radius = Reference.getConfig().defaultConfig.radius;
-            return config;
-        }
+    public void addDimension(String identifier) {
+        DimensionConfig config = new DimensionConfig();
+        DimensionConfig defaultConfig = Reference.getConfig().defaultConfig;
+
+        config.position = defaultConfig.position;
+        config.actionBar = defaultConfig.actionBar;
+        config.radius = defaultConfig.radius;
+
+        dimensions.putIfAbsent(identifier, config);
+    }
+
+    public DimensionConfig getDimension(String identifier) {
+        return dimensions.get(identifier);
     }
 }

@@ -6,6 +6,7 @@ import de.macbrayne.fabric.spawnprotectiontweaks.utils.ModConfig;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -17,7 +18,7 @@ public class SpawnProtection {
         if(Reference.getConfig().enabled) {
             String worldKey = world.getRegistryKey().getValue().toString();
             HashMap<String, ModConfig.DimensionConfig> dimensions = Reference.getConfig().dimensions;
-            boolean configured = dimensions.keySet().parallelStream().anyMatch(worldKey::equals);
+            boolean configured = dimensions.keySet().stream().anyMatch(worldKey::equals);
             ModConfig.DimensionConfig dimensionConfig = configured ? dimensions.get(worldKey) : Reference.getConfig().defaultConfig;
             if(dimensionConfig.radius <= 0) {
                 cir.setReturnValue(false);
@@ -34,6 +35,7 @@ public class SpawnProtection {
             boolean isSpawnProtected = Math.max(relativeX, relativeY) <= dimensionConfig.radius;
             if(isSpawnProtected && dimensionConfig.actionBar) {
                 player.sendMessage(LanguageHelper.getOptionalTranslation(player, "commands.spawnprotectiontweaks.actionbar.message"), true);
+                player.sendMessage(Text.of(spawnPosition.getX() + " " + spawnPosition.getY()), false);
             }
             cir.setReturnValue(isSpawnProtected);
         }
