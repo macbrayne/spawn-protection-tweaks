@@ -7,6 +7,7 @@ import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -16,10 +17,10 @@ import java.util.HashMap;
 public class SpawnProtection {
     public static void isSpawnProtected(ServerWorld world, BlockPos pos, PlayerEntity player, CallbackInfoReturnable<Boolean> cir) {
         if(Reference.getConfig().enabled) {
-            String worldKey = world.getRegistryKey().getValue().toString();
+            Identifier worldKey = world.getRegistryKey().getValue();
             HashMap<String, ModConfig.DimensionConfig> dimensions = Reference.getConfig().dimensions;
-            boolean configured = dimensions.keySet().stream().anyMatch(worldKey::equals);
-            ModConfig.DimensionConfig dimensionConfig = configured ? dimensions.get(worldKey) : Reference.getConfig().defaultConfig;
+            boolean configured = dimensions.keySet().stream().anyMatch(worldKey.toString()::equals);
+            ModConfig.DimensionConfig dimensionConfig = configured ? Reference.getConfig().getDimension(world) : Reference.getConfig().defaultConfig;
             if(dimensionConfig.radius <= 0) {
                 cir.setReturnValue(false);
                 return;
