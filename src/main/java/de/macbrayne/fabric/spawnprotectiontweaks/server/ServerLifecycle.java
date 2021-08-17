@@ -32,6 +32,9 @@ public class ServerLifecycle {
             if (configFile.exists()) {
                 String jsonString = new String(Files.readAllBytes(configFile.toPath()));
                 config = gson.fromJson(jsonString, ModConfig.class);
+                if(config == null) {
+                    config = new ModConfig();
+                }
             } else {
                 config = new ModConfig();
             }

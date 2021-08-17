@@ -36,7 +36,6 @@ public class SpawnProtection {
             boolean isSpawnProtected = Math.max(relativeX, relativeY) <= dimensionConfig.radius;
             if(isSpawnProtected && dimensionConfig.actionBar) {
                 player.sendMessage(LanguageHelper.getOptionalTranslation(player, "commands.spawnprotectiontweaks.actionbar.message"), true);
-                player.sendMessage(Text.of(spawnPosition.getX() + " " + spawnPosition.getY()), false);
             }
             cir.setReturnValue(isSpawnProtected);
         }
