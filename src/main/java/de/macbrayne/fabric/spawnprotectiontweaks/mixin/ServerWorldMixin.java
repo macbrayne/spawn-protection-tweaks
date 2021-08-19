@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerWorld.class)
 public abstract class ServerWorldMixin {
-    @Inject(at = @At(value = "HEAD"), method = "Lnet/minecraft/server/world/ServerWorld;getSpawnPos()Lnet/minecraft/util/math/BlockPos;", cancellable = true)
+    @Inject(at = @At(value = "HEAD"), method = "getSpawnPos()Lnet/minecraft/util/math/BlockPos;", cancellable = true)
     public void adjustSpawnPos(CallbackInfoReturnable<BlockPos> cir) {
         Identifier worldIdentifier = ((WorldAccessor) this).getRegistryKey().getValue();
         if(Reference.getConfig().dimensions.containsKey(worldIdentifier.toString())) {
