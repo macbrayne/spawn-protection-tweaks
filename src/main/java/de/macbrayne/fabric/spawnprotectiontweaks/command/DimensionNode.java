@@ -136,7 +136,8 @@ public class DimensionNode {
                             Reference.getConfig().getDimension(argument).actionBar = value;
                             ServerLifecycle.saveConfig();
                             BaseText action = LanguageHelper.getOptionalTranslation(context.getSource(),
-                                    "commands.spawnprotectiontweaks.dimensions.actionbar." + (value ? "enable" : "disable"));
+                                    "commands.spawnprotectiontweaks.dimensions.actionbar." + (value ? "enable" : "disable"),
+                                    argument.toString());
                             context.getSource().sendFeedback(action, true);
                             return 1;
                         })))
@@ -175,14 +176,30 @@ public class DimensionNode {
     }
 
 
-
     private static void announceRadius(CommandContext<ServerCommandSource> context, Identifier worldKey) {
+        ModConfig modConfig = Reference.getConfig();
+        announceRadius(context, worldKey,
+                modConfig.getDimension(worldKey).radius == modConfig.defaultConfig.radius);
+    }
+
+    private static void announceRadius(CommandContext<ServerCommandSource> context, Identifier worldKey, boolean isDefault) {
+        String translationKey = "commands.spawnprotectiontweaks.dimensions.radius.query" +
+                (isDefault ? ".default" : "");
         context.getSource().sendFeedback(
-                LanguageHelper.getOptionalTranslation(context.getSource(), "commands.spawnprotectiontweaks.dimensions.radius.query", worldKey, Reference.getConfig().getDimension(worldKey).radius),
+                LanguageHelper.getOptionalTranslation(context.getSource(), translationKey, worldKey, Reference.getConfig().getDimension(worldKey).radius),
                 false);
     }
 
     private static void announceActionBarStatus(CommandContext<ServerCommandSource> context, Identifier worldKey) {
-        context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation(context.getSource(), "commands.spawnprotectiontweaks.dimensions.actionbar.status." + (Reference.getConfig().getDimension(worldKey).actionBar ? "enabled" : "disabled")), false);
+        ModConfig modConfig = Reference.getConfig();
+        announceActionBarStatus(context, worldKey,
+                modConfig.getDimension(worldKey).actionBar == modConfig.defaultConfig.actionBar);
+    }
+
+    private static void announceActionBarStatus(CommandContext<ServerCommandSource> context, Identifier worldKey, boolean isDefault) {
+        String translationKey = "commands.spawnprotectiontweaks.dimensions.actionbar.status" +
+                (Reference.getConfig().getDimension(worldKey).actionBar ? ".enabled" : ".disabled") +
+                (isDefault ? ".default" : "");
+        context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation(context.getSource(), translationKey, worldKey.toString()), false);
     }
 }
