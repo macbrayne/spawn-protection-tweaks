@@ -24,6 +24,7 @@ public class DimensionNode {
                 .build();
 
 
+        // region /spt dimensions list <all>
         LiteralCommandNode<ServerCommandSource> dimensionsListNode = CommandManager
                 .literal("list")
                 .requires(source -> Permissions.check(source, "spawnprotectiontweaks.spawnprotection.dimensions.list", 2))
@@ -75,7 +76,9 @@ public class DimensionNode {
                     return context.getSource().getWorldKeys().size();
                 })
                 .build();
+        // endregion
 
+        // region /spt dimensions radius [set/query] [dimension] <value>
         LiteralCommandNode<ServerCommandSource> dimensionsRadiusNode = CommandManager
                 .literal("radius")
                 .build();
@@ -118,9 +121,9 @@ public class DimensionNode {
                     return 1;
                 }))
                 .build();
+        // endregion
 
-
-
+        // region /spt dimensions actionbar [set/query] [dimension] <value>
         LiteralCommandNode<ServerCommandSource> dimensionsActionbarNode = CommandManager
                 .literal("actionbar")
                 .build();
@@ -160,7 +163,9 @@ public class DimensionNode {
                     return 1;
                 }))
                 .build();
+        //endregion
 
+        // region addChildren
         dimensionsActionbarNode.addChild(dimensionsActionBarQueryNode);
         dimensionsActionbarNode.addChild(dimensionsActionBarSetNode);
 
@@ -172,6 +177,7 @@ public class DimensionNode {
         dimensionsNode.addChild(dimensionsActionbarNode);
         dimensionsNode.addChild(dimensionsRadiusNode);
         dimensionsNode.addChild(dimensionsListNode);
+        // endregion
         return dimensionsNode;
     }
 
