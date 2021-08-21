@@ -7,6 +7,7 @@
   "commands.spawnprotectiontweaks.dimensions.radius.query": "Current spawn protection radius in %s is %.1f",
   "commands.spawnprotectiontweaks.dimensions.radius.query.default": "Current spawn protection radius in %s is %.1f (default)",
   "commands.spawnprotectiontweaks.dimensions.radius.set": "Set radius in %s to %.1f",
+  "commands.spawnprotectiontweaks.dimensions.radius.set.default": "Set radius in %s to %.1f (default)",
   "commands.spawnprotectiontweaks.dimensions.list": "Dimensions: %s",
   "commands.spawnprotectiontweaks.dimensions.list.format": "%s. Radius: %.1f, Actionbar: %s",
   "commands.spawnprotectiontweaks.dimensions.actionbar.status.enabled": "The action bar alert in %s is currently enabled",
@@ -14,7 +15,9 @@
   "commands.spawnprotectiontweaks.dimensions.actionbar.status.disabled": "The action bar alert in %s is currently disabled",
   "commands.spawnprotectiontweaks.dimensions.actionbar.status.disabled.default": "The action bar alert in %s is currently disabled (default)",
   "commands.spawnprotectiontweaks.dimensions.actionbar.enable": "Enabled the action bar alert in %s",
+  "commands.spawnprotectiontweaks.dimensions.actionbar.enable.default": "Enabled the action bar alert in %s (default)",
   "commands.spawnprotectiontweaks.dimensions.actionbar.disable": "Disabled the action bar alert in %s",
+  "commands.spawnprotectiontweaks.dimensions.actionbar.disable.default": "Disabled the action bar alert in %s (default)",
   "commands.spawnprotectiontweaks.actionbar.message": "This block is protected by spawn protection",
   "commands.spawnprotectiontweaks.reload": "Reloading config..."
 }

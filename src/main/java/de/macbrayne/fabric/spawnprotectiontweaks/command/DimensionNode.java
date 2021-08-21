@@ -35,7 +35,7 @@ public class DimensionNode {
                             .forEach(dimensionKey -> {
                                 ModConfig.DimensionConfig dimensionConfig = Reference.getConfig().dimensions.get(dimensionKey);
                                 if (dimensionConfig.radius == Reference.getConfig().defaultConfig.radius
-                                && dimensionConfig.actionBar == Reference.getConfig().defaultConfig.actionBar) {
+                                        && dimensionConfig.actionBar == Reference.getConfig().defaultConfig.actionBar) {
                                     return;
                                 }
                                 stringBuilder
@@ -94,9 +94,12 @@ public class DimensionNode {
                             Reference.getConfig().getDimension(argument).radius =
                                     context.getArgument("value", Float.class);
                             ServerLifecycle.saveConfig();
+
+                            boolean isDefault = Reference.getConfig().getDimension(argument).radius == Reference.getConfig().defaultConfig.radius;
                             context.getSource().sendFeedback(
                                     LanguageHelper.getOptionalTranslation(context.getSource(),
-                                            "commands.spawnprotectiontweaks.dimensions.radius.set",
+                                            "commands.spawnprotectiontweaks.dimensions.radius.set" +
+                                                    getSuffix(isDefault),
                                             argument, Reference.getConfig().getDimension(argument).radius),
                                     true);
                             return 1;
@@ -138,8 +141,12 @@ public class DimensionNode {
                             boolean value = context.getArgument("value", Boolean.class);
                             Reference.getConfig().getDimension(argument).actionBar = value;
                             ServerLifecycle.saveConfig();
+
+                            boolean isDefault = Reference.getConfig().getDimension(argument).actionBar == Reference.getConfig().defaultConfig.actionBar;
                             BaseText action = LanguageHelper.getOptionalTranslation(context.getSource(),
-                                    "commands.spawnprotectiontweaks.dimensions.actionbar." + (value ? "enable" : "disable"),
+                                    "commands.spawnprotectiontweaks.dimensions.actionbar." +
+                                            (value ? "enable" : "disable") +
+                                            getSuffix(isDefault),
                                     argument.toString());
                             context.getSource().sendFeedback(action, true);
                             return 1;
@@ -190,7 +197,7 @@ public class DimensionNode {
 
     private static void announceRadius(CommandContext<ServerCommandSource> context, Identifier worldKey, boolean isDefault) {
         String translationKey = "commands.spawnprotectiontweaks.dimensions.radius.query" +
-                (isDefault ? ".default" : "");
+                getSuffix(isDefault);
         context.getSource().sendFeedback(
                 LanguageHelper.getOptionalTranslation(context.getSource(), translationKey, worldKey, Reference.getConfig().getDimension(worldKey).radius),
                 false);
@@ -205,7 +212,11 @@ public class DimensionNode {
     private static void announceActionBarStatus(CommandContext<ServerCommandSource> context, Identifier worldKey, boolean isDefault) {
         String translationKey = "commands.spawnprotectiontweaks.dimensions.actionbar.status" +
                 (Reference.getConfig().getDimension(worldKey).actionBar ? ".enabled" : ".disabled") +
-                (isDefault ? ".default" : "");
+                getSuffix(isDefault);
         context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation(context.getSource(), translationKey, worldKey.toString()), false);
+    }
+
+    private static String getSuffix(boolean isDefault) {
+        return isDefault ? ".default" : "";
     }
 }
