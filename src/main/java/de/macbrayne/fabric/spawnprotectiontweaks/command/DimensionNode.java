@@ -101,7 +101,7 @@ public class DimensionNode {
                                                     getSuffix(isDefault),
                                             argument, Reference.getConfig().getDimension(argument).radius),
                                     true);
-                            return 1;
+                            return Command.SINGLE_SUCCESS;
                         }))
                 )
                 .build();
@@ -111,13 +111,11 @@ public class DimensionNode {
                 .requires(source -> Permissions.check(source, "spawnprotectiontweaks.spawnprotection.radius.query", 2))
                 .executes(context -> {
                     Identifier worldKey = context.getSource().getWorld().getRegistryKey().getValue();
-                    announceRadius(context, worldKey);
-                    return Command.SINGLE_SUCCESS;
+                    return Math.round(announceRadius(context, worldKey));
                 })
                 .then(CommandManager.argument("dimension", DimensionArgumentType.dimension()).executes(context -> {
                     Identifier argument = DimensionArgumentType.getDimensionArgument(context, "dimension").getRegistryKey().getValue();
-                    announceRadius(context, argument);
-                    return Command.SINGLE_SUCCESS;
+                    return Math.round(announceRadius(context, argument));
                 }))
                 .build();
         // endregion
@@ -132,8 +130,7 @@ public class DimensionNode {
                 .requires(source -> Permissions.check(source, "spawnprotectiontweaks.spawnprotection.alert.set", 2))
                 .then(CommandManager.argument("dimension", DimensionArgumentType.dimension())
                         .then(CommandManager.argument("value", BoolArgumentType.bool()).executes(context -> {
-                            DimensionArgumentType.getDimensionArgument(context, "dimension");
-                            Identifier argument = context.getArgument("dimension", Identifier.class);
+                            Identifier argument =  DimensionArgumentType.getDimensionArgument(context, "dimension").getRegistryKey().getValue();
                             boolean value = context.getArgument("value", Boolean.class);
                             Reference.getConfig().getDimension(argument).actionBar = value;
                             ServerLifecycle.saveConfig();
@@ -145,7 +142,7 @@ public class DimensionNode {
                                             getSuffix(isDefault),
                                     argument.toString());
                             context.getSource().sendFeedback(action, true);
-                            return 1;
+                            return Command.SINGLE_SUCCESS;
                         })))
                 .build();
 
@@ -154,13 +151,11 @@ public class DimensionNode {
                 .requires(source -> Permissions.check(source, "spawnprotectiontweaks.spawnprotection.alert.query", 2))
                 .executes(context -> {
                     Identifier worldKey = context.getSource().getWorld().getRegistryKey().getValue();
-                    announceActionBarStatus(context, worldKey);
-                    return Command.SINGLE_SUCCESS;
+                    return announceActionBarStatus(context, worldKey) ? 1 : 0;
                 })
                 .then(CommandManager.argument("dimension", DimensionArgumentType.dimension()).executes(context -> {
                     Identifier argument = DimensionArgumentType.getDimensionArgument(context, "dimension").getRegistryKey().getValue();
-                    announceActionBarStatus(context, argument);
-                    return Command.SINGLE_SUCCESS;
+                    return announceActionBarStatus(context, argument) ? 1 : 0;
                 }))
                 .build();
         //endregion
@@ -182,7 +177,7 @@ public class DimensionNode {
     }
 
 
-    private static void announceRadius(CommandContext<ServerCommandSource> context, Identifier worldKey) {
+    private static float announceRadius(CommandContext<ServerCommandSource> context, Identifier worldKey) {
         Reference.getConfig().addDimension(worldKey);
         ModConfig modConfig = Reference.getConfig();
         String translationKey = "commands.spawnprotectiontweaks.dimensions.radius.query" +
@@ -190,15 +185,17 @@ public class DimensionNode {
         context.getSource().sendFeedback(
                 LanguageHelper.getOptionalTranslation(context.getSource(), translationKey, worldKey, Reference.getConfig().getDimension(worldKey).radius),
                 false);
+        return modConfig.getDimension(worldKey).radius;
     }
 
-    private static void announceActionBarStatus(CommandContext<ServerCommandSource> context, Identifier worldKey) {
+    private static boolean announceActionBarStatus(CommandContext<ServerCommandSource> context, Identifier worldKey) {
         Reference.getConfig().addDimension(worldKey);
         ModConfig modConfig = Reference.getConfig();
         String translationKey = "commands.spawnprotectiontweaks.dimensions.actionbar.status" +
                 (Reference.getConfig().getDimension(worldKey).actionBar ? ".enabled" : ".disabled") +
                 getSuffix(modConfig.getDimension(worldKey).actionBar == modConfig.defaultConfig.actionBar);
         context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation(context.getSource(), translationKey, worldKey.toString()), false);
+        return modConfig.getDimension(worldKey).actionBar;
     }
 
     private static String getSuffix(boolean isDefault) {

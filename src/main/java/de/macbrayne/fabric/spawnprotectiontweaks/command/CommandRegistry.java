@@ -48,7 +48,7 @@ public class CommandRegistry {
                     ServerCommandSource source = context.getSource();
                     source.sendFeedback(LanguageHelper.getOptionalTranslation
                             (source, "commands.spawnprotectiontweaks"), true); // TODO: Add help
-                    return 1;
+                    return Command.SINGLE_SUCCESS;
                 }).build();
 
         spawnProtectionTweaksNode.addChild(enabledNode);
