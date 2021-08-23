@@ -1,5 +1,6 @@
 package de.macbrayne.fabric.spawnprotectiontweaks.command;
 
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.tree.LiteralCommandNode;
@@ -10,8 +11,6 @@ import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 
-import java.util.List;
-
 public class CommandRegistry {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, @SuppressWarnings("unused") boolean dedicated) {
         ServerLifecycle.reloadConfig();
@@ -20,7 +19,7 @@ public class CommandRegistry {
                 .requires(source -> Permissions.check(source, "spawnprotectiontweaks.spawnprotection.enabled", 2))
                 .executes(context -> {
                     context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation(context.getSource(), "commands.spawnprotectiontweaks.status." + (Reference.getConfig().enabled ? "enabled" : "disabled")), false);
-                    return 1;
+                    return Command.SINGLE_SUCCESS;
                 })
                 .then(CommandManager.argument("value", BoolArgumentType.bool()).executes(context -> {
                     boolean value = context.getArgument("value", Boolean.class);
@@ -28,7 +27,7 @@ public class CommandRegistry {
                     ServerLifecycle.saveConfig();
                     String action = value ? "enable" : "disable";
                     context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation(context.getSource(), "commands.spawnprotectiontweaks." + action), true);
-                    return 1;
+                    return Command.SINGLE_SUCCESS;
                 }))
                 .build();
 
@@ -38,20 +37,12 @@ public class CommandRegistry {
                 .executes(context -> {
                     context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation(context.getSource(), "commands.spawnprotectiontweaks.reload"), true);
                     ServerLifecycle.reloadConfig();
-                    return 1;
+                    return Command.SINGLE_SUCCESS;
                 })
                 .build();
 
-        List<LiteralCommandNode<ServerCommandSource>> children = List.of(enabledNode, DimensionNode.get(), reloadNode);
-        addAlias("spawnprotectiontweaks", dispatcher, children);
-        if(Reference.getConfig().alias != null && !Reference.getConfig().alias.isBlank()) {
-            addAlias(Reference.getConfig().alias, dispatcher, children);
-        }
-    }
-
-    private static void addAlias(String literal, CommandDispatcher<ServerCommandSource> dispatcher, List<LiteralCommandNode<ServerCommandSource>> children) {
         LiteralCommandNode<ServerCommandSource> spawnProtectionTweaksNode = CommandManager
-                .literal(literal)
+                .literal("spawnprotectiontweaks")
                 .requires(source -> Permissions.check(source, "spawnprotectiontweaks", 2))
                 .executes(context -> {
                     ServerCommandSource source = context.getSource();
@@ -60,7 +51,15 @@ public class CommandRegistry {
                     return 1;
                 }).build();
 
-        children.forEach(spawnProtectionTweaksNode::addChild);
+        spawnProtectionTweaksNode.addChild(enabledNode);
+        spawnProtectionTweaksNode.addChild(DimensionNode.get());
+        spawnProtectionTweaksNode.addChild(reloadNode);
+
         dispatcher.getRoot().addChild(spawnProtectionTweaksNode);
+
+        if(Reference.getConfig().alias != null && !Reference.getConfig().alias.isBlank()) {
+            dispatcher.register(CommandManager.literal(Reference.getConfig().alias).redirect(spawnProtectionTweaksNode));
+        }
     }
+
 }
