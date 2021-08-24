@@ -21,7 +21,7 @@ import net.minecraft.util.Identifier;
 import java.util.Comparator;
 
 public class DimensionNode {
-    static LiteralCommandNode<ServerCommandSource> get() {
+    static LiteralCommandNode<ServerCommandSource> build() {
         return CommandManager
                 .literal("dimensions")
                 .then(getListNode())
