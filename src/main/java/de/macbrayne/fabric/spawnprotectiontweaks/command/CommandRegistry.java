@@ -27,13 +27,17 @@ public class CommandRegistry {
         return context -> {
             ServerCommandSource source = context.getSource();
             source.sendFeedback(LanguageHelper.getOptionalTranslation
-                    (source, "commands.spawnprotectiontweaks"), true); // TODO: Add help
+                    (source, "commands.spawnprotectiontweaks", Reference.MOD_VERSION,
+                            Reference.getConfig().defaultConfig.actionBar,
+                            Reference.getConfig().defaultConfig.radius), true);
             return Command.SINGLE_SUCCESS;
         };
     }
 
     private static LiteralArgumentBuilder<ServerCommandSource> getAliasNode(LiteralCommandNode<ServerCommandSource> root) {
         return CommandManager.literal(Reference.getConfig().alias)
+                .requires(source -> Permissions.check(source, "spawnprotectiontweaks", 2))
+                .executes(printHelp())
                 .redirect(root);
     }
 

@@ -79,7 +79,7 @@ public class DimensionNode {
                                                         containsKey ? Reference.getConfig().getDimension(worldKey).actionBar :
                                                                 Reference.getConfig().defaultConfig.actionBar));
                             });
-                    context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation(context.getSource(), "commands.spawnprotectiontweaks.dimensions.list", stringBuilder.toString()), false);
+                    context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation(context.getSource(), "commands.spawnprotectiontweaks.dimensions.list.all", stringBuilder.toString()), false);
                     return context.getSource().getWorldKeys().size();
                 });
     }

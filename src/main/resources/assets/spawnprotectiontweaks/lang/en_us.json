@@ -1,5 +1,5 @@
 {
-  "commands.spawnprotectiontweaks": "TODO: Add help",
+  "commands.spawnprotectiontweaks": "§6§lSpawnProtectionTweaks Version %s§r\nThis mod enables per dimension control of the location\nand radius of the spawn protection.\nAn additional tweak introduced by this mod is improved feedback when players try to destroy a block covered by spawn protection.\n\nThe current default values (which you can change in the config) are: action bar %s, radius %s\n\nAvailable subcommands:\n  - help: Displays this message\n  - reload: Reloads the config\n  - enabled: Enables / disables the mod\n  - dimensions <radius/actionbar/list>: Configure per-dimension parameters",
   "commands.spawnprotectiontweaks.enable": "Enabled SpawnProtectionTweaks",
   "commands.spawnprotectiontweaks.disable": "Disabled SpawnProtectionTweaks",
   "commands.spawnprotectiontweaks.status.enabled": "SpawnProtectionTweaks is currently enabled",
@@ -8,7 +8,8 @@
   "commands.spawnprotectiontweaks.dimensions.radius.query.default": "Current spawn protection radius in %s is %.1f (default)",
   "commands.spawnprotectiontweaks.dimensions.radius.set": "Set radius in %s to %.1f",
   "commands.spawnprotectiontweaks.dimensions.radius.set.default": "Set radius in %s to %.1f (default)",
-  "commands.spawnprotectiontweaks.dimensions.list": "Dimensions: %s",
+  "commands.spawnprotectiontweaks.dimensions.list": "Non-default dimension configs: %s",
+  "commands.spawnprotectiontweaks.dimensions.list.all": "All dimension configs: %s",
   "commands.spawnprotectiontweaks.dimensions.list.format": "%s. Radius: %.1f, Actionbar: %s",
   "commands.spawnprotectiontweaks.dimensions.actionbar.status.enabled": "The action bar alert in %s is currently enabled",
   "commands.spawnprotectiontweaks.dimensions.actionbar.status.enabled.default": "The action bar alert in %s is currently enabled (default)",
