@@ -16,25 +16,43 @@ public class CommandRegistry {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, @SuppressWarnings("unused") boolean dedicated) {
         ServerLifecycle.reloadConfig();
 
-        LiteralCommandNode<ServerCommandSource> spawnProtectionTweaksNode = CommandManager
-                .literal("spawnprotectiontweaks")
-                .requires(source -> Permissions.check(source, "spawnprotectiontweaks", 2))
-                .executes(context -> {
-                    ServerCommandSource source = context.getSource();
-                    source.sendFeedback(LanguageHelper.getOptionalTranslation
-                            (source, "commands.spawnprotectiontweaks"), true); // TODO: Add help
-                    return Command.SINGLE_SUCCESS;
-                })
-                .then(getEnabledNode())
-                .then(DimensionNode.build())
-                .then(getReloadNode())
-                .build();
-
-        dispatcher.getRoot().addChild(spawnProtectionTweaksNode);
+        LiteralCommandNode<ServerCommandSource> rootNode = dispatcher.register(getRootNode());
 
         if(Reference.getConfig().alias != null && !Reference.getConfig().alias.isBlank()) {
-            dispatcher.register(CommandManager.literal(Reference.getConfig().alias).redirect(spawnProtectionTweaksNode));
+            dispatcher.register(getAliasNode(rootNode));
         }
+    }
+
+    private static Command<ServerCommandSource> printHelp() {
+        return context -> {
+            ServerCommandSource source = context.getSource();
+            source.sendFeedback(LanguageHelper.getOptionalTranslation
+                    (source, "commands.spawnprotectiontweaks"), true); // TODO: Add help
+            return Command.SINGLE_SUCCESS;
+        };
+    }
+
+    private static LiteralArgumentBuilder<ServerCommandSource> getAliasNode(LiteralCommandNode<ServerCommandSource> root) {
+        return CommandManager.literal(Reference.getConfig().alias)
+                .redirect(root);
+    }
+
+    private static LiteralArgumentBuilder<ServerCommandSource> getRootNode() {
+        return CommandManager
+                .literal("spawnprotectiontweaks")
+                .requires(source -> Permissions.check(source, "spawnprotectiontweaks", 2))
+                .executes(printHelp())
+                .then(getHelpNode())
+                .then(getEnabledNode())
+                .then(DimensionNode.build())
+                .then(getReloadNode());
+    }
+
+    private static LiteralArgumentBuilder<ServerCommandSource> getHelpNode() {
+        return CommandManager
+                .literal("help")
+                .requires(source -> Permissions.check(source, "spawnprotectiontweaks.reload", 2))
+                .executes(printHelp());
     }
 
     private static LiteralArgumentBuilder<ServerCommandSource> getReloadNode() {
