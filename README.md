@@ -29,20 +29,27 @@ The mod is licensed under the [MIT License](LICENSE)
 ## Commands
 
 ### Enable / Disable Spawn Protection
-* /spawnprotectiontweaks enabled [true/false]
-
-### Configure the list of dimensions the Spawn Protection should affect
-* /spawnprotectiontweaks whitelist
-* /spawnprotectiontweaks whitelist add \<dimensionid\>
-* /spawnprotectiontweaks whitelist remove \<dimensionid\>
+* /spawnprotectiontweaks enabled \<true/false\>
 
 ### Configure the radius of the Spawn Protection
-* /spawnprotectiontweaks radius
+* /spawnprotectiontweaks dimensions radius set \<dimensionid\> \<value\>
+* /spawnprotectiontweaks dimensions radius query [dimensionid]
 
 ### Configure the action bar alert
-* /spawnprotectiontweaks alert
+* /spawnprotectiontweaks dimensions actionbar set \<dimensionid\> \<true/false\>
+* /spawnprotectiontweaks dimensions actionbar query [dimensionid]
+
+### List all dimensions not using the default config
+* /spawnprotectiontweaks dimensions list
+
+### List all dimensions
+* /spawnprotectiontweaks dimensions list all
+
+Most query commands should be usable in command blocks if anyone wishs to use them.
 
 ## Config
 
 A config exclusive option is ``alias`` which sets an
 optional alias to the spawnprotectiontweaks command
+
+The centre of the spawn protection is also currently only configurable via the config.
