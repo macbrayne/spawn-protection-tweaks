@@ -18,7 +18,7 @@ Currently, only ``en_us`` is supported though.
 
 SpawnProtectionTweaks supports permissions mods like LuckPerms and other mods supporting the [Fabric Permission API](https://github.com/lucko/fabric-permissions-api).
 The permission nodes are formatted in the form ``spawnprotectiontweaks.<module>.<subcommand>.<operation>``
-I.e. ``spawnprotectiontweaks.spawnprotection.whitelist.add``
+I.e. ``spawnprotectiontweaks.spawnprotection.dimensions.list``
 
 Currently, all commands reside in the "spawnprotection" module.
 
