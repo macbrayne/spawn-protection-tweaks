@@ -17,10 +17,8 @@ Currently, only ``en_us`` is supported though.
 ## Permissions
 
 SpawnProtectionTweaks supports permissions mods like LuckPerms and other mods supporting the [Fabric Permission API](https://github.com/lucko/fabric-permissions-api).
-The permission nodes are formatted in the form ``spawnprotectiontweaks.<module>.<subcommand>.<operation>``
-I.e. ``spawnprotectiontweaks.spawnprotection.dimensions.list``
-
-Currently, all commands reside in the "spawnprotection" module.
+The permission nodes are formatted in the form ``spawnprotectiontweaks.<subcommand>.<operation>``
+I.e. ``spawnprotectiontweaks.dimensions.list``
 
 ## [Releases](https://github.com/macbrayne/spawn-protection-tweaks/releases)
 
@@ -29,7 +27,8 @@ The mod is licensed under the [MIT License](LICENSE)
 ## Commands
 
 ### Enable / Disable Spawn Protection
-* /spawnprotectiontweaks enabled \<true/false\>
+* /spawnprotectiontweaks enabled set \<true/false\>
+* /spawnprotectiontweaks enabled query
 
 ### Configure the radius of the Spawn Protection
 * /spawnprotectiontweaks dimensions radius set \<dimensionid\> \<value\>

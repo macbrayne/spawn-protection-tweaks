@@ -95,7 +95,7 @@ public class CommandRegistry {
                 .requires(source -> Permissions.check(source, PermissionsReference.ENABLED_QUERY, 2))
                 .executes(context -> {
                     context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation(context.getSource(), "commands.spawnprotectiontweaks.status." + (Reference.getConfig().enabled ? "enabled" : "disabled")), false);
-                    return Command.SINGLE_SUCCESS;
+                    return Reference.getConfig().enabled ? 1 : 0;
                 });
     }
 
