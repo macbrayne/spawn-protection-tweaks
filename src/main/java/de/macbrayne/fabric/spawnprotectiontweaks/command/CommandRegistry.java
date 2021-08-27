@@ -36,7 +36,7 @@ public class CommandRegistry {
             source.sendFeedback(LanguageHelper.getOptionalTranslation
                     (source, "commands.spawnprotectiontweaks", Reference.MOD_VERSION,
                             Reference.getConfig().defaultConfig.actionBar,
-                            Reference.getConfig().defaultConfig.radius), true);
+                            Reference.getConfig().defaultConfig.radius), false);
             return Command.SINGLE_SUCCESS;
         };
     }
@@ -70,20 +70,33 @@ public class CommandRegistry {
         return CommandManager
                 .literal("enabled")
                 .requires(source -> Permissions.check(source, PermissionsReference.ENABLED, 2))
+                .then(getEnabledSetNode())
+                .then(getEnabledQueryNode());
+    }
+
+    private static LiteralArgumentBuilder<ServerCommandSource> getEnabledSetNode() {
+        return CommandManager
+                .literal("set")
+                .requires(source -> Permissions.check(source, PermissionsReference.ENABLED_SET, 2))
+                .then(CommandManager.argument("value", BoolArgumentType.bool())
+                        .executes(context -> {
+                            boolean value = context.getArgument("value", Boolean.class);
+                            Reference.getConfig().enabled = value;
+                            ServerLifecycle.saveConfig();
+                            String action = value ? "enable" : "disable";
+                            context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation(context.getSource(), "commands.spawnprotectiontweaks." + action), true);
+                            return Command.SINGLE_SUCCESS;
+                        }));
+    }
+
+    private static LiteralArgumentBuilder<ServerCommandSource> getEnabledQueryNode() {
+        return CommandManager
+                .literal("query")
+                .requires(source -> Permissions.check(source, PermissionsReference.ENABLED_QUERY, 2))
                 .executes(context -> {
                     context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation(context.getSource(), "commands.spawnprotectiontweaks.status." + (Reference.getConfig().enabled ? "enabled" : "disabled")), false);
                     return Command.SINGLE_SUCCESS;
-                })
-                .then(CommandManager.argument("value", BoolArgumentType.bool())
-                        .requires(source -> Permissions.check(source, PermissionsReference.ENABLED_SET, 2))
-                        .executes(context -> {
-                    boolean value = context.getArgument("value", Boolean.class);
-                    Reference.getConfig().enabled = value;
-                    ServerLifecycle.saveConfig();
-                    String action = value ? "enable" : "disable";
-                    context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation(context.getSource(), "commands.spawnprotectiontweaks." + action), true);
-                    return Command.SINGLE_SUCCESS;
-                }));
+                });
     }
 
     // region Permissions
@@ -91,8 +104,10 @@ public class CommandRegistry {
         private static final String MODULE = Reference.MOD_ID;
 
         public static final String RELOAD = MODULE + ".reload";
+
         public static final String ENABLED = MODULE + ".enabled";
-        public static final String ENABLED_SET = MODULE + ".enabled.set";
+        public static final String ENABLED_QUERY = ENABLED + ".query";
+        public static final String ENABLED_SET = ENABLED + ".set";
     }
     // endregion
 }
