@@ -16,7 +16,14 @@ public class CommandRegistry {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, @SuppressWarnings("unused") boolean dedicated) {
         ServerLifecycle.reloadConfig();
 
-        LiteralCommandNode<ServerCommandSource> rootNode = dispatcher.register(getRootNode());
+        LiteralCommandNode<ServerCommandSource> rootNode = dispatcher.register(CommandManager
+                .literal("spawnprotectiontweaks")
+                .requires(source -> Permissions.check(source, PermissionsReference.MODULE, 2))
+                .executes(printHelp())
+                .then(getHelpNode())
+                .then(getEnabledNode())
+                .then(DimensionNode.build())
+                .then(getReloadNode()));
 
         if(Reference.getConfig().alias != null && !Reference.getConfig().alias.isBlank()) {
             dispatcher.register(getAliasNode(rootNode));
@@ -36,33 +43,22 @@ public class CommandRegistry {
 
     private static LiteralArgumentBuilder<ServerCommandSource> getAliasNode(LiteralCommandNode<ServerCommandSource> root) {
         return CommandManager.literal(Reference.getConfig().alias)
-                .requires(source -> Permissions.check(source, "spawnprotectiontweaks", 2))
+                .requires(source -> Permissions.check(source, PermissionsReference.MODULE, 2))
                 .executes(printHelp())
                 .redirect(root);
-    }
-
-    private static LiteralArgumentBuilder<ServerCommandSource> getRootNode() {
-        return CommandManager
-                .literal("spawnprotectiontweaks")
-                .requires(source -> Permissions.check(source, "spawnprotectiontweaks", 2))
-                .executes(printHelp())
-                .then(getHelpNode())
-                .then(getEnabledNode())
-                .then(DimensionNode.build())
-                .then(getReloadNode());
     }
 
     private static LiteralArgumentBuilder<ServerCommandSource> getHelpNode() {
         return CommandManager
                 .literal("help")
-                .requires(source -> Permissions.check(source, "spawnprotectiontweaks.reload", 2))
+                .requires(source -> Permissions.check(source, PermissionsReference.MODULE, 2))
                 .executes(printHelp());
     }
 
     private static LiteralArgumentBuilder<ServerCommandSource> getReloadNode() {
         return CommandManager
                 .literal("reload")
-                .requires(source -> Permissions.check(source, "spawnprotectiontweaks.reload", 2))
+                .requires(source -> Permissions.check(source, PermissionsReference.RELOAD, 2))
                 .executes(context -> {
                     context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation(context.getSource(), "commands.spawnprotectiontweaks.reload"), true);
                     ServerLifecycle.reloadConfig();
@@ -73,12 +69,14 @@ public class CommandRegistry {
     private static LiteralArgumentBuilder<ServerCommandSource> getEnabledNode() {
         return CommandManager
                 .literal("enabled")
-                .requires(source -> Permissions.check(source, "spawnprotectiontweaks.spawnprotection.enabled", 2))
+                .requires(source -> Permissions.check(source, PermissionsReference.ENABLED, 2))
                 .executes(context -> {
                     context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation(context.getSource(), "commands.spawnprotectiontweaks.status." + (Reference.getConfig().enabled ? "enabled" : "disabled")), false);
                     return Command.SINGLE_SUCCESS;
                 })
-                .then(CommandManager.argument("value", BoolArgumentType.bool()).executes(context -> {
+                .then(CommandManager.argument("value", BoolArgumentType.bool())
+                        .requires(source -> Permissions.check(source, PermissionsReference.ENABLED_SET, 2))
+                        .executes(context -> {
                     boolean value = context.getArgument("value", Boolean.class);
                     Reference.getConfig().enabled = value;
                     ServerLifecycle.saveConfig();
@@ -88,4 +86,13 @@ public class CommandRegistry {
                 }));
     }
 
+    // region Permissions
+    private record PermissionsReference() {
+        private static final String MODULE = Reference.MOD_ID;
+
+        public static final String RELOAD = MODULE + ".reload";
+        public static final String ENABLED = MODULE + ".enabled";
+        public static final String ENABLED_SET = MODULE + ".enabled.set";
+    }
+    // endregion
 }

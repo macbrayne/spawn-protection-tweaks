@@ -5,7 +5,6 @@ import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.context.CommandContextBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import de.macbrayne.fabric.spawnprotectiontweaks.Reference;
 import de.macbrayne.fabric.spawnprotectiontweaks.server.ServerLifecycle;
@@ -24,6 +23,7 @@ public class DimensionNode {
     static LiteralCommandNode<ServerCommandSource> build() {
         return CommandManager
                 .literal("dimensions")
+                .requires(source -> Permissions.check(source, DimensionsPermissions.MODULE, 2))
                 .then(getListNode())
                 .then(getRadiusNode())
                 .then(getActionBarNode())
@@ -34,7 +34,7 @@ public class DimensionNode {
     private static LiteralArgumentBuilder<ServerCommandSource> getListNode() {
         return CommandManager
                 .literal("list")
-                .requires(source -> Permissions.check(source, "spawnprotectiontweaks.spawnprotection.dimensions.list", 2))
+                .requires(source -> Permissions.check(source, DimensionsPermissions.LIST, 2))
                 .executes(context -> {
                     StringBuilder stringBuilder = new StringBuilder();
                     Reference.getConfig().dimensions.keySet().stream()
@@ -62,7 +62,7 @@ public class DimensionNode {
     private static LiteralArgumentBuilder<ServerCommandSource> getListAllNode() {
         return CommandManager
                 .literal("all")
-                .requires(source -> Permissions.check(source, "spawnprotectiontweaks.spawnprotection.dimensions.list.all", 2))
+                .requires(source -> Permissions.check(source, DimensionsPermissions.LIST_ALL, 2))
                 .executes(context -> {
                     StringBuilder stringBuilder = new StringBuilder();
                     context.getSource().getWorldKeys().stream().sorted(Comparator.comparing(o -> o.getValue().toString()))
@@ -91,6 +91,7 @@ public class DimensionNode {
     private static LiteralArgumentBuilder<ServerCommandSource> getRadiusNode() {
         return CommandManager
                 .literal("radius")
+                .requires(source -> Permissions.check(source, DimensionsPermissions.RADIUS, 2))
                 .then(getRadiusQueryNode())
                 .then(getRadiusSetNode());
     }
@@ -98,7 +99,7 @@ public class DimensionNode {
     private static LiteralArgumentBuilder<ServerCommandSource> getRadiusSetNode() {
         return CommandManager
                 .literal("set")
-                .requires(source -> Permissions.check(source, "spawnprotectiontweaks.spawnprotection.dimensions.radius.set", 2))
+                .requires(source -> Permissions.check(source, DimensionsPermissions.RADIUS_SET, 2))
                 .then(CommandManager.argument("dimension", DimensionArgumentType.dimension())
                         .then(CommandManager.argument("value", FloatArgumentType.floatArg(0)).executes(context -> {
                             DimensionArgumentType.getDimensionArgument(context, "dimension");
@@ -123,7 +124,7 @@ public class DimensionNode {
     private static LiteralArgumentBuilder<ServerCommandSource> getRadiusQueryNode() {
         return CommandManager
                 .literal("query")
-                .requires(source -> Permissions.check(source, "spawnprotectiontweaks.spawnprotection.radius.query", 2))
+                .requires(source -> Permissions.check(source, DimensionsPermissions.RADIUS_QUERY, 2))
                 .executes(context -> {
                     Identifier worldKey = context.getSource().getWorld().getRegistryKey().getValue();
                     return Math.round(announceRadius(context, worldKey));
@@ -140,6 +141,7 @@ public class DimensionNode {
     private static LiteralArgumentBuilder<ServerCommandSource> getActionBarNode() {
         return CommandManager
                 .literal("actionbar")
+                .requires(source -> Permissions.check(source, DimensionsPermissions.ACTIONBAR, 2))
                 .then(getActionBarSetNode())
                 .then(getActionBarQueryNode());
     }
@@ -147,7 +149,7 @@ public class DimensionNode {
     private static LiteralArgumentBuilder<ServerCommandSource> getActionBarSetNode() {
         return CommandManager
                 .literal("set")
-                .requires(source -> Permissions.check(source, "spawnprotectiontweaks.spawnprotection.alert.set", 2))
+                .requires(source -> Permissions.check(source, DimensionsPermissions.ACTIONBAR_SET, 2))
                 .then(CommandManager.argument("dimension", DimensionArgumentType.dimension())
                         .then(CommandManager.argument("value", BoolArgumentType.bool()).executes(context -> {
                             Identifier argument =  DimensionArgumentType.getDimensionArgument(context, "dimension").getRegistryKey().getValue();
@@ -169,7 +171,7 @@ public class DimensionNode {
     private static LiteralArgumentBuilder<ServerCommandSource> getActionBarQueryNode() {
         return CommandManager
                 .literal("query")
-                .requires(source -> Permissions.check(source, "spawnprotectiontweaks.spawnprotection.alert.query", 2))
+                .requires(source -> Permissions.check(source, DimensionsPermissions.ACTIONBAR_QUERY, 2))
                 .executes(context -> {
                     Identifier worldKey = context.getSource().getWorld().getRegistryKey().getValue();
                     return announceActionBarStatus(context, worldKey) ? 1 : 0;
@@ -207,6 +209,23 @@ public class DimensionNode {
 
     private static String getSuffix(boolean isDefault) {
         return isDefault ? ".default" : "";
+    }
+    // endregion
+
+    // region Permissions
+    private record DimensionsPermissions() {
+        private static final String MODULE = Reference.MOD_ID + ".dimensions";
+
+        public static final String RADIUS = MODULE + ".radius";
+        public static final String RADIUS_QUERY = RADIUS + ".query";
+        public static final String RADIUS_SET = RADIUS + ".set";
+
+        public static final String ACTIONBAR = MODULE + ".actionbar";
+        public static final String ACTIONBAR_QUERY = ACTIONBAR + ".query";
+        public static final String ACTIONBAR_SET = ACTIONBAR + ".set";
+
+        public static final String LIST = MODULE + ".list";
+        public static final String LIST_ALL = LIST + ".all";
     }
     // endregion
 }
