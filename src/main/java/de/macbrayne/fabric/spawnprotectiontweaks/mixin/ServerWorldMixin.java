@@ -1,6 +1,7 @@
 package de.macbrayne.fabric.spawnprotectiontweaks.mixin;
 
 import de.macbrayne.fabric.spawnprotectiontweaks.Reference;
+import de.macbrayne.fabric.spawnprotectiontweaks.utils.ModConfig;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -15,13 +16,16 @@ public abstract class ServerWorldMixin {
     @Inject(at = @At(value = "HEAD"), method = "getSpawnPos()Lnet/minecraft/util/math/BlockPos;", cancellable = true)
     public void adjustSpawnPos(CallbackInfoReturnable<BlockPos> cir) {
         Identifier worldIdentifier = ((WorldAccessor) this).getRegistryKey().getValue();
-        if(Reference.getConfig().dimensions.containsKey(worldIdentifier.toString())) {
-            if(Reference.getConfig().dimensions.get(worldIdentifier.toString()).centre == null) {
-                return;
-            }
-            cir.setReturnValue(Reference.getConfig().getDimension(worldIdentifier).centre);
-        } else if(!worldIdentifier.equals(World.OVERWORLD.getValue())) {
-            cir.setReturnValue(Reference.getConfig().defaultConfig.centre);
+        if(worldIdentifier.equals(World.OVERWORLD.getValue())) {
+            return;
+        }
+
+        ModConfig config = Reference.getConfig();
+        if(config.dimensions.containsKey(worldIdentifier.toString()) &&
+                config.dimensions.get(worldIdentifier.toString()).centre != null) {
+            cir.setReturnValue(config.getDimension(worldIdentifier).centre);
+        } else {
+            cir.setReturnValue(config.defaultConfig.centre);
         }
     }
 }
