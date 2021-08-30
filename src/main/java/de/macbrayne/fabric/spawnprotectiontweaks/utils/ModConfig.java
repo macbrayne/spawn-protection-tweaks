@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class ModConfig {
     public boolean enabled = false;
     public String alias = "spt";
-    public DimensionConfig defaultConfig = new DimensionConfig(new BlockPos(0, 60, 0), 0, true);
+    public DimensionConfig defaultConfig = getDefaultDefaultConfig();
     public final HashMap<String, DimensionConfig> dimensions = new HashMap<>();
 
     public static class DimensionConfig {
@@ -50,5 +50,9 @@ public class ModConfig {
 
     public DimensionConfig getDimension(Identifier identifier) {
         return dimensions.get(identifier.toString());
+    }
+
+    public static DimensionConfig getDefaultDefaultConfig() {
+        return new DimensionConfig(new BlockPos(0, 60, 0), 0, true);
     }
 }

@@ -32,6 +32,7 @@ public class DimensionNode {
                 .then(getRadiusNode())
                 .then(getActionBarNode())
                 .then(getCentreNode())
+                .then(getDefaultsNode())
                 .build();
     }
 
@@ -188,6 +189,111 @@ public class DimensionNode {
     }
     //endregion
 
+    // region /spt dimensions defaults [set/query] [dimension] <value>
+    private static LiteralArgumentBuilder<ServerCommandSource> getDefaultsNode() {
+        return CommandManager
+                .literal("defaults")
+                .requires(source -> Permissions.check(source, DimensionsPermissions.DEFAULTS, 2))
+                .then(getDefaultsSetNode())
+                .then(getDefaultsQueryNode())
+                .then(getDefaultsResetNode());
+    }
+
+    private static LiteralArgumentBuilder<ServerCommandSource> getDefaultsSetNode() {
+        return CommandManager
+                .literal("set")
+                .requires(source -> Permissions.check(source, DimensionsPermissions.DEFAULTS_SET, 2))
+                .then(CommandManager.literal("radius")
+                        .then(CommandManager.argument("value", FloatArgumentType.floatArg(0)).executes(context -> {
+                            Reference.getConfig().defaultConfig.radius =
+                                    context.getArgument("value", Float.class);
+                            ServerLifecycle.saveConfig();
+
+                            context.getSource().sendFeedback(
+                                    LanguageHelper.getOptionalTranslation(context.getSource(),
+                                            "commands.spawnprotectiontweaks.dimensions.defaults.set.radius",
+                                            Reference.getConfig().defaultConfig.radius),
+                                    true);
+
+                            return Command.SINGLE_SUCCESS;
+                        })))
+                .then(CommandManager.literal("actionbar")
+                        .then(CommandManager.argument("value", BoolArgumentType.bool())).executes(context -> {
+                            Reference.getConfig().defaultConfig.actionBar = context.getArgument("value", Boolean.class);
+                            ServerLifecycle.saveConfig();
+
+                            context.getSource().sendFeedback(
+                                    LanguageHelper.getOptionalTranslation(context.getSource(),
+                                            "commands.spawnprotectiontweaks.dimensions.defaults.set.actionbar" +
+                                            (Reference.getConfig().defaultConfig.actionBar ? ".enabled" : ".disabled")),
+                                    true);
+                            return Command.SINGLE_SUCCESS;
+                        }))
+                .then(CommandManager.literal("centre")
+                        .then(CommandManager.argument("value", BlockPosArgumentType.blockPos()).executes(context -> {
+                            Reference.getConfig().defaultConfig.centre = BlockPosArgumentType.getBlockPos(context, "value");
+                            ServerLifecycle.saveConfig();
+
+                            context.getSource().sendFeedback(
+                                    LanguageHelper.getOptionalTranslation(context.getSource(),
+                                            "commands.spawnprotectiontweaks.dimensions.defaults.set.centre",
+                                            Reference.getConfig().defaultConfig.centre.toShortString()),
+                                    true);
+
+                            return Command.SINGLE_SUCCESS;
+                        })));
+    }
+
+    private static LiteralArgumentBuilder<ServerCommandSource> getDefaultsQueryNode() {
+        return CommandManager
+                .literal("query")
+                .requires(source -> Permissions.check(source, DimensionsPermissions.DEFAULTS_QUERY, 2))
+                .then(CommandManager.literal("radius").executes(context -> {
+                    context.getSource().sendFeedback(
+                            LanguageHelper.getOptionalTranslation(context.getSource(),
+                                    "commands.spawnprotectiontweaks.dimensions.defaults.query.radius",
+                                    Reference.getConfig().defaultConfig.radius),
+                            false);
+                    return Math.round(Reference.getConfig().defaultConfig.radius);
+                }))
+                .then(CommandManager.literal("actionbar").executes(context -> {
+                    context.getSource().sendFeedback(
+                            LanguageHelper.getOptionalTranslation(context.getSource(),
+                                    "commands.spawnprotectiontweaks.dimensions.defaults.query.actionbar" +
+                                            (Reference.getConfig().defaultConfig.actionBar ? ".enabled" : ".disabled")),
+                            false);
+                    return Reference.getConfig().defaultConfig.actionBar ? 1 : 0;
+                }))
+                .then(CommandManager.literal("centre").executes(context -> {
+                    context.getSource().sendFeedback(
+                            LanguageHelper.getOptionalTranslation(context.getSource(),
+                                    "commands.spawnprotectiontweaks.dimensions.defaults.query.radius",
+                                    Reference.getConfig().defaultConfig.centre.toShortString()),
+                            false);
+                    return Command.SINGLE_SUCCESS;
+                }));
+    }
+
+    private static LiteralArgumentBuilder<ServerCommandSource> getDefaultsResetNode() {
+        return CommandManager
+                .literal("reset")
+                .requires(source -> Permissions.check(source, DimensionsPermissions.DEFAULTS_RESET, 2))
+                .executes(context -> {
+                    Reference.getConfig().defaultConfig = ModConfig.getDefaultDefaultConfig();
+                    ServerLifecycle.saveConfig();
+
+                    context.getSource().sendFeedback(
+                            LanguageHelper.getOptionalTranslation(context.getSource(),
+                                    "commands.spawnprotectiontweaks.dimensions.defaults.reset"),
+                            false);
+                    return Command.SINGLE_SUCCESS;
+                });
+    }
+
+    // endregion
+
+    // region /spt dimensions centre [set/query/reset] [dimension] <value>
+
     private static LiteralArgumentBuilder<ServerCommandSource> getCentreNode() {
         return CommandManager
                 .literal("centre")
@@ -263,6 +369,7 @@ public class DimensionNode {
                         }));
     }
 
+    // endregion
 
     // region Utility
 
@@ -324,6 +431,11 @@ public class DimensionNode {
         public static final String CENTRE_QUERY = CENTRE + ".query";
         public static final String CENTRE_SET = CENTRE + ".set";
         public static final String CENTRE_RESET = CENTRE + ".reset";
+
+        public static final String DEFAULTS = MODULE + ".defaults";
+        public static final String DEFAULTS_QUERY = DEFAULTS + ".query";
+        public static final String DEFAULTS_SET = DEFAULTS + ".set";
+        public static final String DEFAULTS_RESET = DEFAULTS + ".reset";
 
         public static final String LIST = MODULE + ".list";
         public static final String LIST_ALL = LIST + ".all";
