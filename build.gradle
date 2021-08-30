@@ -16,6 +16,7 @@ apply(plugin: "me.hypherionmc.cursegradle")
 
 repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    maven { url = "https://maven.nucleoid.xyz/" }
 }
 
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_16
@@ -46,6 +47,8 @@ dependencies {
     modImplementation("me.lucko:fabric-permissions-api:${project.permissions_api_version}")
     modApi("me.lucko:fabric-permissions-api:${project.permissions_api_version}")
     include("me.lucko:fabric-permissions-api:${project.permissions_api_version}")
+
+    modImplementation include("fr.catcore:server-translations-api:1.4.5+1.17")
 
     compileOnly("org.jetbrains:annotations:21.0.1")
 }

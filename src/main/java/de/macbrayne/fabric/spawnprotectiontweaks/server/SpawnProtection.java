@@ -1,11 +1,11 @@
 package de.macbrayne.fabric.spawnprotectiontweaks.server;
 
 import de.macbrayne.fabric.spawnprotectiontweaks.Reference;
-import de.macbrayne.fabric.spawnprotectiontweaks.utils.LanguageHelper;
 import de.macbrayne.fabric.spawnprotectiontweaks.utils.ModConfig;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -34,7 +34,7 @@ public class SpawnProtection {
             int relativeY = MathHelper.abs(pos.getZ() - spawnPosition.getZ());
             boolean isSpawnProtected = Math.max(relativeX, relativeY) <= dimensionConfig.radius;
             if(isSpawnProtected && dimensionConfig.actionBar) {
-                player.sendMessage(LanguageHelper.getOptionalTranslation(player, "commands.spawnprotectiontweaks.actionbar.message"), true);
+                player.sendMessage(new TranslatableText("commands.spawnprotectiontweaks.actionbar.message"), true);
             }
             cir.setReturnValue(isSpawnProtected);
         }

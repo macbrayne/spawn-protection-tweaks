@@ -17,6 +17,7 @@ import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.BaseText;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -59,7 +60,7 @@ public class DimensionNode {
                                                         Reference.getConfig().dimensions.get(dimensionKey).radius,
                                                         Reference.getConfig().dimensions.get(dimensionKey).actionBar));
                             });
-                    context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation(context.getSource(), "commands.spawnprotectiontweaks.dimensions.list", stringBuilder.toString()), false);
+                    context.getSource().sendFeedback(new TranslatableText("commands.spawnprotectiontweaks.dimensions.list", stringBuilder.toString()), false);
                     return Reference.getConfig().dimensions.size();
                 })
                 .then(getListAllNode());
@@ -85,7 +86,7 @@ public class DimensionNode {
                                                         containsKey ? Reference.getConfig().getDimension(worldKey).actionBar :
                                                                 Reference.getConfig().defaultConfig.actionBar));
                             });
-                    context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation(context.getSource(), "commands.spawnprotectiontweaks.dimensions.list.all", stringBuilder.toString()), false);
+                    context.getSource().sendFeedback(new TranslatableText("commands.spawnprotectiontweaks.dimensions.list.all", stringBuilder.toString()), false);
                     return context.getSource().getWorldKeys().size();
                 });
     }
@@ -117,10 +118,8 @@ public class DimensionNode {
 
                             boolean isDefault = Reference.getConfig().getDimension(argument).radius == Reference.getConfig().defaultConfig.radius;
                             context.getSource().sendFeedback(
-                                    LanguageHelper.getOptionalTranslation(context.getSource(),
-                                            "commands.spawnprotectiontweaks.dimensions.radius.set" +
-                                                    getSuffix(isDefault),
-                                            argument, Reference.getConfig().getDimension(argument).radius),
+                                    new TranslatableText("commands.spawnprotectiontweaks.dimensions.radius.set" +
+                                            getSuffix(isDefault), argument, Reference.getConfig().getDimension(argument).radius),
                                     true);
                             return Command.SINGLE_SUCCESS;
                         }))
@@ -164,11 +163,10 @@ public class DimensionNode {
                             ServerLifecycle.saveConfig();
 
                             boolean isDefault = Reference.getConfig().getDimension(argument).actionBar == Reference.getConfig().defaultConfig.actionBar;
-                            BaseText action = LanguageHelper.getOptionalTranslation(context.getSource(),
-                                    "commands.spawnprotectiontweaks.dimensions.actionbar." +
-                                            (value ? "enable" : "disable") +
-                                            getSuffix(isDefault),
-                                    argument.toString());
+                            final String translationKey = "commands.spawnprotectiontweaks.dimensions.actionbar." +
+                                    (value ? "enable" : "disable") +
+                                    getSuffix(isDefault);
+                            BaseText action = new TranslatableText(translationKey, argument.toString());
                             context.getSource().sendFeedback(action, true);
                             return Command.SINGLE_SUCCESS;
                         })));
@@ -210,9 +208,7 @@ public class DimensionNode {
                             ServerLifecycle.saveConfig();
 
                             context.getSource().sendFeedback(
-                                    LanguageHelper.getOptionalTranslation(context.getSource(),
-                                            "commands.spawnprotectiontweaks.dimensions.defaults.set.radius",
-                                            Reference.getConfig().defaultConfig.radius),
+                                    new TranslatableText("commands.spawnprotectiontweaks.dimensions.defaults.set.radius", Reference.getConfig().defaultConfig.radius),
                                     true);
 
                             return Command.SINGLE_SUCCESS;
@@ -222,10 +218,10 @@ public class DimensionNode {
                             Reference.getConfig().defaultConfig.actionBar = context.getArgument("value", Boolean.class);
                             ServerLifecycle.saveConfig();
 
+                            final String translationKey = "commands.spawnprotectiontweaks.dimensions.defaults.set.actionbar" +
+                            (Reference.getConfig().defaultConfig.actionBar ? ".enabled" : ".disabled");
                             context.getSource().sendFeedback(
-                                    LanguageHelper.getOptionalTranslation(context.getSource(),
-                                            "commands.spawnprotectiontweaks.dimensions.defaults.set.actionbar" +
-                                            (Reference.getConfig().defaultConfig.actionBar ? ".enabled" : ".disabled")),
+                                    new TranslatableText(translationKey),
                                     true);
                             return Command.SINGLE_SUCCESS;
                         }))
@@ -235,9 +231,7 @@ public class DimensionNode {
                             ServerLifecycle.saveConfig();
 
                             context.getSource().sendFeedback(
-                                    LanguageHelper.getOptionalTranslation(context.getSource(),
-                                            "commands.spawnprotectiontweaks.dimensions.defaults.set.centre",
-                                            Reference.getConfig().defaultConfig.centre.toShortString()),
+                                    new TranslatableText("commands.spawnprotectiontweaks.dimensions.defaults.set.centre", Reference.getConfig().defaultConfig.centre.toShortString()),
                                     true);
 
                             return Command.SINGLE_SUCCESS;
@@ -250,25 +244,21 @@ public class DimensionNode {
                 .requires(source -> Permissions.check(source, DimensionsPermissions.DEFAULTS_QUERY, 2))
                 .then(CommandManager.literal("radius").executes(context -> {
                     context.getSource().sendFeedback(
-                            LanguageHelper.getOptionalTranslation(context.getSource(),
-                                    "commands.spawnprotectiontweaks.dimensions.defaults.query.radius",
-                                    Reference.getConfig().defaultConfig.radius),
+                            new TranslatableText("commands.spawnprotectiontweaks.dimensions.defaults.query.radius", Reference.getConfig().defaultConfig.radius),
                             false);
                     return Math.round(Reference.getConfig().defaultConfig.radius);
                 }))
                 .then(CommandManager.literal("actionbar").executes(context -> {
+                    final String translationKey = "commands.spawnprotectiontweaks.dimensions.defaults.query.actionbar" +
+                            (Reference.getConfig().defaultConfig.actionBar ? ".enabled" : ".disabled");
                     context.getSource().sendFeedback(
-                            LanguageHelper.getOptionalTranslation(context.getSource(),
-                                    "commands.spawnprotectiontweaks.dimensions.defaults.query.actionbar" +
-                                            (Reference.getConfig().defaultConfig.actionBar ? ".enabled" : ".disabled")),
+                            new TranslatableText(translationKey),
                             false);
                     return Reference.getConfig().defaultConfig.actionBar ? 1 : 0;
                 }))
                 .then(CommandManager.literal("centre").executes(context -> {
                     context.getSource().sendFeedback(
-                            LanguageHelper.getOptionalTranslation(context.getSource(),
-                                    "commands.spawnprotectiontweaks.dimensions.defaults.query.centre",
-                                    Reference.getConfig().defaultConfig.centre.toShortString()),
+                            new TranslatableText("commands.spawnprotectiontweaks.dimensions.defaults.query.centre", Reference.getConfig().defaultConfig.centre.toShortString()),
                             false);
                     return Command.SINGLE_SUCCESS;
                 }));
@@ -283,8 +273,7 @@ public class DimensionNode {
                     ServerLifecycle.saveConfig();
 
                     context.getSource().sendFeedback(
-                            LanguageHelper.getOptionalTranslation(context.getSource(),
-                                    "commands.spawnprotectiontweaks.dimensions.defaults.reset"),
+                            new TranslatableText("commands.spawnprotectiontweaks.dimensions.defaults.reset"),
                             false);
                     return Command.SINGLE_SUCCESS;
                 });
@@ -316,11 +305,8 @@ public class DimensionNode {
                                     ServerLifecycle.saveConfig();
 
                                     boolean isDefault = Reference.getConfig().getDimension(argument).centre.equals(Reference.getConfig().defaultConfig.centre);
-                                    BaseText action = LanguageHelper.getOptionalTranslation(context.getSource(),
-                                            "commands.spawnprotectiontweaks.dimensions.centre.set" +
-                                                    getSuffix(isDefault),
-                                            argument.toString(),
-                                            value.toShortString());
+                                    BaseText action = new TranslatableText("commands.spawnprotectiontweaks.dimensions.centre.set" +
+                                            getSuffix(isDefault), argument.toString(), value.toShortString());
                                     context.getSource().sendFeedback(action, true);
                                     return Command.SINGLE_SUCCESS;
                                 })));
@@ -359,10 +345,7 @@ public class DimensionNode {
                                 translationKey = translationKey + ".spawn";
                             }
 
-                            BaseText action = LanguageHelper.getOptionalTranslation(context.getSource(),
-                                    translationKey,
-                                    argument.toString(),
-                                    serverWorld.getSpawnPos().toShortString());
+                            BaseText action = new TranslatableText(translationKey, argument.toString(), serverWorld.getSpawnPos().toShortString());
                             context.getSource().sendFeedback(action, true);
 
                             return Command.SINGLE_SUCCESS;
@@ -379,7 +362,7 @@ public class DimensionNode {
         String translationKey = "commands.spawnprotectiontweaks.dimensions.radius.query" +
                 getSuffix(modConfig.getDimension(worldKey).radius == modConfig.defaultConfig.radius);
         context.getSource().sendFeedback(
-                LanguageHelper.getOptionalTranslation(context.getSource(), translationKey, worldKey, Reference.getConfig().getDimension(worldKey).radius),
+                new TranslatableText(translationKey, worldKey, Reference.getConfig().getDimension(worldKey).radius),
                 false);
         return modConfig.getDimension(worldKey).radius;
     }
@@ -390,7 +373,7 @@ public class DimensionNode {
         String translationKey = "commands.spawnprotectiontweaks.dimensions.actionbar.status" +
                 (Reference.getConfig().getDimension(worldKey).actionBar ? ".enabled" : ".disabled") +
                 getSuffix(modConfig.getDimension(worldKey).actionBar == modConfig.defaultConfig.actionBar);
-        context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation(context.getSource(), translationKey, worldKey.toString()), false);
+        context.getSource().sendFeedback(new TranslatableText(translationKey, worldKey.toString()), false);
         return modConfig.getDimension(worldKey).actionBar;
     }
 
@@ -406,7 +389,7 @@ public class DimensionNode {
         String translationKey = "commands.spawnprotectiontweaks.dimensions.centre.query" +
                 suffix;
         context.getSource().sendFeedback(
-                LanguageHelper.getOptionalTranslation(context.getSource(), translationKey, worldKey, centre.toShortString()),
+                new TranslatableText(translationKey, worldKey, centre.toShortString()),
                 false);
     }
 
