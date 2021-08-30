@@ -267,7 +267,7 @@ public class DimensionNode {
                 .then(CommandManager.literal("centre").executes(context -> {
                     context.getSource().sendFeedback(
                             LanguageHelper.getOptionalTranslation(context.getSource(),
-                                    "commands.spawnprotectiontweaks.dimensions.defaults.query.radius",
+                                    "commands.spawnprotectiontweaks.dimensions.defaults.query.centre",
                                     Reference.getConfig().defaultConfig.centre.toShortString()),
                             false);
                     return Command.SINGLE_SUCCESS;
