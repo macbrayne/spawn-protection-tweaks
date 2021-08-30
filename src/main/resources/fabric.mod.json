@@ -12,11 +12,8 @@
     "sources": "https://github.com/macbrayne/spawn-protection-tweaks"
   },
   "license": "MIT",
-  "environment": "*",
+  "environment": "server",
   "entrypoints": {
-    "client": [
-      "de.macbrayne.fabric.spawnprotectiontweaks.client.SpawnProtectionTweaksClient"
-    ],
     "server": [
       "de.macbrayne.fabric.spawnprotectiontweaks.server.SpawnProtectionTweaksServer"
     ]

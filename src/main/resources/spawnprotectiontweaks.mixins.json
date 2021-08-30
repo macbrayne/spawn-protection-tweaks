@@ -4,7 +4,6 @@
   "package": "de.macbrayne.fabric.spawnprotectiontweaks.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "LanguageMixin",
     "MinecraftDedicatedServerMixin",
     "ServerWorldMixin",
     "WorldAccessor"
