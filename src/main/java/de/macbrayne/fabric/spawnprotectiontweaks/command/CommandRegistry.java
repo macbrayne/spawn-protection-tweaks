@@ -18,7 +18,7 @@ public class CommandRegistry {
 
         LiteralCommandNode<ServerCommandSource> rootNode = dispatcher.register(CommandManager
                 .literal("spawnprotectiontweaks")
-                .requires(source -> Permissions.check(source, PermissionsReference.MODULE, 2))
+                .requires(Permissions.require(PermissionsReference.MODULE, 2))
                 .executes(printHelp())
                 .then(getHelpNode())
                 .then(getEnabledNode())
@@ -40,7 +40,7 @@ public class CommandRegistry {
 
     private static LiteralArgumentBuilder<ServerCommandSource> getAliasNode(LiteralCommandNode<ServerCommandSource> root) {
         return CommandManager.literal(Reference.getConfig().alias)
-                .requires(source -> Permissions.check(source, PermissionsReference.MODULE, 2))
+                .requires(Permissions.require(PermissionsReference.MODULE, 2))
                 .executes(printHelp())
                 .redirect(root);
     }
@@ -48,14 +48,14 @@ public class CommandRegistry {
     private static LiteralArgumentBuilder<ServerCommandSource> getHelpNode() {
         return CommandManager
                 .literal("help")
-                .requires(source -> Permissions.check(source, PermissionsReference.MODULE, 2))
+                .requires(Permissions.require(PermissionsReference.MODULE, 2))
                 .executes(printHelp());
     }
 
     private static LiteralArgumentBuilder<ServerCommandSource> getReloadNode() {
         return CommandManager
                 .literal("reload")
-                .requires(source -> Permissions.check(source, PermissionsReference.RELOAD, 2))
+                .requires(Permissions.require(PermissionsReference.RELOAD, 2))
                 .executes(context -> {
                     context.getSource().sendFeedback(new TranslatableText("commands.spawnprotectiontweaks.reload"), true);
                     ServerLifecycle.reloadConfig();
@@ -66,7 +66,7 @@ public class CommandRegistry {
     private static LiteralArgumentBuilder<ServerCommandSource> getEnabledNode() {
         return CommandManager
                 .literal("enabled")
-                .requires(source -> Permissions.check(source, PermissionsReference.ENABLED.root, 2))
+                .requires(Permissions.require(PermissionsReference.ENABLED.root, 2))
                 .then(getEnabledSetNode())
                 .then(getEnabledQueryNode());
     }
@@ -74,7 +74,7 @@ public class CommandRegistry {
     private static LiteralArgumentBuilder<ServerCommandSource> getEnabledSetNode() {
         return CommandManager
                 .literal("set")
-                .requires(source -> Permissions.check(source, PermissionsReference.ENABLED.set, 2))
+                .requires(Permissions.require(PermissionsReference.ENABLED.set, 2))
                 .then(CommandManager.argument("value", BoolArgumentType.bool())
                         .executes(context -> {
                             boolean value = context.getArgument("value", Boolean.class);
@@ -89,7 +89,7 @@ public class CommandRegistry {
     private static LiteralArgumentBuilder<ServerCommandSource> getEnabledQueryNode() {
         return CommandManager
                 .literal("query")
-                .requires(source -> Permissions.check(source, PermissionsReference.ENABLED.query, 2))
+                .requires(Permissions.require(PermissionsReference.ENABLED.query, 2))
                 .executes(context -> {
                     final String translationKey = "commands.spawnprotectiontweaks.status." + (Reference.getConfig().enabled ? "enabled" : "disabled");
                     context.getSource().sendFeedback(new TranslatableText(translationKey), false);
