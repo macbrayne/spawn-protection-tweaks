@@ -66,7 +66,7 @@ public class CommandRegistry {
     private static LiteralArgumentBuilder<ServerCommandSource> getEnabledNode() {
         return CommandManager
                 .literal("enabled")
-                .requires(source -> Permissions.check(source, PermissionsReference.ENABLED, 2))
+                .requires(source -> Permissions.check(source, PermissionsReference.ENABLED.root, 2))
                 .then(getEnabledSetNode())
                 .then(getEnabledQueryNode());
     }
@@ -74,7 +74,7 @@ public class CommandRegistry {
     private static LiteralArgumentBuilder<ServerCommandSource> getEnabledSetNode() {
         return CommandManager
                 .literal("set")
-                .requires(source -> Permissions.check(source, PermissionsReference.ENABLED_SET, 2))
+                .requires(source -> Permissions.check(source, PermissionsReference.ENABLED.set, 2))
                 .then(CommandManager.argument("value", BoolArgumentType.bool())
                         .executes(context -> {
                             boolean value = context.getArgument("value", Boolean.class);
@@ -89,7 +89,7 @@ public class CommandRegistry {
     private static LiteralArgumentBuilder<ServerCommandSource> getEnabledQueryNode() {
         return CommandManager
                 .literal("query")
-                .requires(source -> Permissions.check(source, PermissionsReference.ENABLED_QUERY, 2))
+                .requires(source -> Permissions.check(source, PermissionsReference.ENABLED.query, 2))
                 .executes(context -> {
                     final String translationKey = "commands.spawnprotectiontweaks.status." + (Reference.getConfig().enabled ? "enabled" : "disabled");
                     context.getSource().sendFeedback(new TranslatableText(translationKey), false);
@@ -103,9 +103,7 @@ public class CommandRegistry {
 
         public static final String RELOAD = MODULE + ".reload";
 
-        public static final String ENABLED = MODULE + ".enabled";
-        public static final String ENABLED_QUERY = ENABLED + ".query";
-        public static final String ENABLED_SET = ENABLED + ".set";
+        public static final VanillaSyntaxGroup ENABLED = new VanillaSyntaxGroup(MODULE, ".enabled");
     }
     // endregion
 }
