@@ -135,7 +135,6 @@ curseforge {
         relations {
             requiredDependency "fabric-api" // Fabric API is required
             tool "luckperms" // Luckperms is a compatible tool
-            tool "cyber-permissions" // Cyber-Permissions is a compatible tool
         }
 
         mainArtifact(remapJar) {

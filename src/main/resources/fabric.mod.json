@@ -31,7 +31,6 @@
     "fabric-permissions-api-v0": "*"
   },
   "suggests": {
-    "cyber-permissions": "*",
     "luckperms": "*"
   }
 }
