@@ -55,4 +55,10 @@ public class ModConfig {
     public static DimensionConfig getDefaultDefaultConfig() {
         return new DimensionConfig(new BlockPos(0, 60, 0), 0, true);
     }
+
+    public DimensionConfig getOrDefault(ServerWorld world) {
+        Identifier worldKey = world.getRegistryKey().getValue();
+        boolean configured = dimensions.keySet().stream().anyMatch(worldKey.toString()::equals);
+        return configured ? Reference.getConfig().getDimension(world) : Reference.getConfig().defaultConfig;
+    }
 }

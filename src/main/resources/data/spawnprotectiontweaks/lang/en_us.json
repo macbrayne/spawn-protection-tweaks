@@ -1,5 +1,5 @@
 {
-  "commands.spawnprotectiontweaks": "§6§lSpawnProtectionTweaks Version %s§r\nThis mod enables per dimension control of the location\nand radius of the spawn protection.\nAn additional tweak introduced by this mod is improved feedback when players try to destroy a block covered by spawn protection.\n\nThe current default values (which you can change in the config) are: action bar %s, radius %s\n\nAvailable subcommands:\n  - help: Displays this message\n  - reload: Reloads the config\n  - enabled <set/query>: Enables / disables the mod\n  - dimensions <radius/actionbar/list>: Configure per-dimension parameters",
+  "commands.spawnprotectiontweaks": "§6§lSpawnProtectionTweaks Version %s§r\nThis mod enables per dimension control of the location\nand radius of the spawn protection.\nAn additional tweak introduced by this mod is improved feedback when players try to destroy a block covered by spawn protection.\n\nThe current default values are: action bar %s, radius %s\n\nAvailable subcommands:\n  - help: Displays this message\n  - reload: Reloads the config\n  - enabled <set/query>: Enables / disables the mod\n  - dimensions <radius/actionbar/list/defaults>: Configure defaults / per-dimension parameters",
   "commands.spawnprotectiontweaks.enable": "Enabled SpawnProtectionTweaks",
   "commands.spawnprotectiontweaks.disable": "Disabled SpawnProtectionTweaks",
   "commands.spawnprotectiontweaks.status.enabled": "SpawnProtectionTweaks is currently enabled",
@@ -35,6 +35,11 @@
   "commands.spawnprotectiontweaks.dimensions.actionbar.enable.default": "Enabled the action bar alert in %s (default)",
   "commands.spawnprotectiontweaks.dimensions.actionbar.disable": "Disabled the action bar alert in %s",
   "commands.spawnprotectiontweaks.dimensions.actionbar.disable.default": "Disabled the action bar alert in %s (default)",
-  "commands.spawnprotectiontweaks.actionbar.message": "This block is protected by spawn protection",
-  "commands.spawnprotectiontweaks.reload": "Reloading config..."
+  "commands.spawnprotectiontweaks.reload": "Reloading config...",
+
+
+  "actionbar.spawnprotectiontweaks.interaction.attack.block": "This block is protected by spawn protection",
+  "actionbar.spawnprotectiontweaks.interaction.use.block": "This block is protected by spawn protection",
+  "actionbar.spawnprotectiontweaks.interaction.attack.entity": "This entity is protected by spawn protection",
+  "actionbar.spawnprotectiontweaks.interaction.use.entity": "This entity is protected by spawn protection"
 }

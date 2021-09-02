@@ -34,7 +34,7 @@ dependencies {
             "fabric-api-base",
             "fabric-command-api-v1",
             "fabric-lifecycle-events-v1",
-            "fabric-networking-api-v1"
+            "fabric-events-interaction-v0"
     ]
 
     // Add each module as a dependency
