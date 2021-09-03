@@ -6,7 +6,7 @@ import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import de.macbrayne.fabric.spawnprotectiontweaks.Reference;
-import de.macbrayne.fabric.spawnprotectiontweaks.server.ServerLifecycle;
+import de.macbrayne.fabric.spawnprotectiontweaks.events.ServerLifecycle;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;

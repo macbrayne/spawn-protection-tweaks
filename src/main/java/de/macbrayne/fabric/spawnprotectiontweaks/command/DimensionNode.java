@@ -7,7 +7,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import de.macbrayne.fabric.spawnprotectiontweaks.Reference;
-import de.macbrayne.fabric.spawnprotectiontweaks.server.ServerLifecycle;
+import de.macbrayne.fabric.spawnprotectiontweaks.events.ServerLifecycle;
 import de.macbrayne.fabric.spawnprotectiontweaks.utils.LanguageHelper;
 import de.macbrayne.fabric.spawnprotectiontweaks.utils.ModConfig;
 import me.lucko.fabric.api.permissions.v0.Permissions;

@@ -1,6 +1,7 @@
-package de.macbrayne.fabric.spawnprotectiontweaks.server;
+package de.macbrayne.fabric.spawnprotectiontweaks.events;
 
 import de.macbrayne.fabric.spawnprotectiontweaks.Reference;
+import de.macbrayne.fabric.spawnprotectiontweaks.server.SpawnProtection;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;

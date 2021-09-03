@@ -1,4 +1,4 @@
-package de.macbrayne.fabric.spawnprotectiontweaks.server;
+package de.macbrayne.fabric.spawnprotectiontweaks.events;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

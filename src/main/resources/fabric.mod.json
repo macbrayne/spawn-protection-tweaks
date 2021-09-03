@@ -15,7 +15,7 @@
   "environment": "server",
   "entrypoints": {
     "server": [
-      "de.macbrayne.fabric.spawnprotectiontweaks.server.SpawnProtectionTweaksServer"
+      "de.macbrayne.fabric.spawnprotectiontweaks.SpawnProtectionTweaks"
     ]
   },
   "mixins": [
