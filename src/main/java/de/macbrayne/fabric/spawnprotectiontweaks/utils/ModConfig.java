@@ -27,6 +27,12 @@ public class ModConfig {
         public BlockPos centre;
         public float radius;
         public boolean actionBar;
+        public boolean preventAttackingBlocks;
+        public boolean preventUsingBlocks;
+        public boolean preventAttackingEntities;
+        public boolean preventUsingEntities;
+        public boolean preventUsingItems;
+        public boolean preventBreakingBlocks;
     }
 
     public void addDimension(Identifier identifier) {

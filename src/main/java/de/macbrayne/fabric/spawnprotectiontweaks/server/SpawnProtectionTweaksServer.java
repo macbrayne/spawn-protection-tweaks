@@ -6,10 +6,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
-import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
-import net.fabricmc.fabric.api.event.player.UseBlockCallback;
-import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+import net.fabricmc.fabric.api.event.player.*;
 
 @Environment(EnvType.SERVER)
 public class SpawnProtectionTweaksServer implements DedicatedServerModInitializer {
@@ -19,9 +16,11 @@ public class SpawnProtectionTweaksServer implements DedicatedServerModInitialize
         ServerLifecycleEvents.END_DATA_PACK_RELOAD.register(ServerLifecycle::onReloadCommand);
         CommandRegistrationCallback.EVENT.register(CommandRegistry::register);
 
-        AttackBlockCallback.EVENT.register(PlayerEvents::onAttack);
-        UseBlockCallback.EVENT.register(PlayerEvents::onUse);
+        AttackBlockCallback.EVENT.register(PlayerEvents::onAttackBlock);
+        UseBlockCallback.EVENT.register(PlayerEvents::onUseBlock);
         AttackEntityCallback.EVENT.register(PlayerEvents::onAttackEntity);
         UseEntityCallback.EVENT.register(PlayerEvents::onUseEntity);
+        PlayerBlockBreakEvents.BEFORE.register(PlayerEvents::beforeBreakBlock);
+        UseItemCallback.EVENT.register(PlayerEvents::onUseItem);
     }
 }
