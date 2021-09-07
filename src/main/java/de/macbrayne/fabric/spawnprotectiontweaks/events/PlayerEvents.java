@@ -27,39 +27,39 @@ import java.util.function.Function;
 public class PlayerEvents {
     @SuppressWarnings("unused")
     public static ActionResult onAttackBlock(PlayerEntity playerEntity, World world, Hand hand, BlockPos blockPos, Direction direction) {
-        return getActionResult(playerEntity, world, blockPos, PlayerPermissions.ATTACK_BLOCK);
+        return getAllowedAtAsActionResult(playerEntity, world, blockPos, PlayerPermissions.ATTACK_BLOCK);
     }
 
     @SuppressWarnings("unused")
     public static ActionResult onAttackEntity(PlayerEntity playerEntity, World world, Hand hand, Entity entity, @Nullable EntityHitResult entityHitResult) {
-        return getActionResult(playerEntity, world, entity.getBlockPos(), PlayerPermissions.ATTACK_ENTITY);
+        return getAllowedAtAsActionResult(playerEntity, world, entity.getBlockPos(), PlayerPermissions.ATTACK_ENTITY);
     }
 
     @SuppressWarnings("unused")
     public static ActionResult onUseBlock(PlayerEntity playerEntity, World world, Hand hand, BlockHitResult blockHitResult) {
-        return getActionResult(playerEntity, world, blockHitResult.getBlockPos(), PlayerPermissions.USE_BLOCK);
+        return getAllowedAtAsActionResult(playerEntity, world, blockHitResult.getBlockPos(), PlayerPermissions.USE_BLOCK);
     }
 
     @SuppressWarnings("unused")
     public static ActionResult onUseEntity(PlayerEntity playerEntity, World world, Hand hand, Entity entity, @Nullable EntityHitResult entityHitResult) {
-        return getActionResult(playerEntity, world, entity.getBlockPos(), PlayerPermissions.USE_ENTITY);
+        return getAllowedAtAsActionResult(playerEntity, world, entity.getBlockPos(), PlayerPermissions.USE_ENTITY);
     }
 
     @SuppressWarnings("unused")
     public static boolean beforeBreakBlock(World world, PlayerEntity playerEntity, BlockPos blockPos, BlockState blockState, BlockEntity blockEntity) {
-        return commonLogic(playerEntity, world, blockPos, PlayerPermissions.BREAK_BLOCK);
+        return isAllowedAt(playerEntity, world, blockPos, PlayerPermissions.BREAK_BLOCK);
     }
 
     public static TypedActionResult<ItemStack> onUseItem(PlayerEntity playerEntity, World world, Hand hand) {
-        return commonLogic(playerEntity, world, playerEntity.getBlockPos(), PlayerPermissions.USE_ITEM) ?
+        return isAllowedAt(playerEntity, world, playerEntity.getBlockPos(), PlayerPermissions.USE_ITEM) ?
                 TypedActionResult.pass(playerEntity.getStackInHand(hand)) :
                 TypedActionResult.fail(playerEntity.getStackInHand(hand));
     }
 
-    private static boolean commonLogic(PlayerEntity playerEntity, World world, BlockPos target, PlayerPermissions intent) {
+    private static boolean isAllowedAt(PlayerEntity playerEntity, World world, BlockPos target, PlayerPermissions intent) {
         ServerPlayerEntity serverPlayer = (ServerPlayerEntity) playerEntity;
         ServerWorld serverWorld = (ServerWorld) world;
-        if(intent.getConfig(serverWorld) && Permissions.check(playerEntity, intent.get(world))) {
+        if(!intent.isEnabled(serverWorld) || Permissions.check(playerEntity, intent.get(world))) {
             return true;
         }
         Optional<Boolean> protectionStatus = SpawnProtection.isProtected(serverWorld, target, serverPlayer);
@@ -72,8 +72,8 @@ public class PlayerEvents {
         return true;
     }
 
-    private static ActionResult getActionResult(PlayerEntity playerEntity, World world, BlockPos target, PlayerPermissions intent) {
-        return commonLogic(playerEntity, world, target, intent) ? ActionResult.PASS : ActionResult.FAIL;
+    private static ActionResult getAllowedAtAsActionResult(PlayerEntity playerEntity, World world, BlockPos target, PlayerPermissions intent) {
+        return isAllowedAt(playerEntity, world, target, intent) ? ActionResult.PASS : ActionResult.FAIL;
     }
 
     // region Permissions
@@ -104,7 +104,7 @@ public class PlayerEvents {
             return translationKey;
         }
 
-        public boolean getConfig(ServerWorld world) {
+        public boolean isEnabled(ServerWorld world) {
             return configSupplier.apply(world);
         }
 
