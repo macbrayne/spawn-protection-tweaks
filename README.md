@@ -35,9 +35,17 @@ The mod is licensed under the [MIT License](LICENSE)
 * /spawnprotectiontweaks dimensions radius set \<dimensionid\> \<value\>
 * /spawnprotectiontweaks dimensions radius query [dimensionid]
 
+### Configure the centre of the Spawn Protection
+* /spawnprotectiontweaks dimensions centre set \<dimensionid\> \<value\>
+* /spawnprotectiontweaks dimensions centre query [dimensionid]
+
 ### Configure the action bar alert
 * /spawnprotectiontweaks dimensions actionbar set \<dimensionid\> \<true/false\>
 * /spawnprotectiontweaks dimensions actionbar query [dimensionid]
+
+### Configure the default dimension specific config
+* /spawnprotectiontweaks dimensions set \<actionbar/radius/centre\> \<value\>
+* /spawnprotectiontweaks dimensions query \<actionbar/radius/centre\> 
 
 ### List all dimensions not using the default config
 * /spawnprotectiontweaks dimensions list
