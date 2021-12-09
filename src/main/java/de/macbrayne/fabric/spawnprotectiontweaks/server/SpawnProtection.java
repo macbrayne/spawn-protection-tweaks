@@ -1,11 +1,11 @@
 package de.macbrayne.fabric.spawnprotectiontweaks.server;
 
 import de.macbrayne.fabric.spawnprotectiontweaks.Reference;
+import de.macbrayne.fabric.spawnprotectiontweaks.utils.LanguageHelper;
 import de.macbrayne.fabric.spawnprotectiontweaks.utils.ModConfig;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -18,7 +18,7 @@ public class SpawnProtection {
             Optional<Boolean> protectionStatus = isProtected(world, pos, player);
             protectionStatus.ifPresent(result -> {
                 if (result && Reference.getConfig().getOrDefault(world).actionBar) {
-                    player.sendMessage(new TranslatableText("actionbar.spawnprotectiontweaks.interaction.attack.block"), true);
+                    player.sendMessage(LanguageHelper.getOptionalTranslation("actionbar.spawnprotectiontweaks.interaction.attack.block"), true);
                 }
                 cir.setReturnValue(result);
             });

@@ -2,6 +2,7 @@ package de.macbrayne.fabric.spawnprotectiontweaks.events;
 
 import de.macbrayne.fabric.spawnprotectiontweaks.Reference;
 import de.macbrayne.fabric.spawnprotectiontweaks.server.SpawnProtection;
+import de.macbrayne.fabric.spawnprotectiontweaks.utils.LanguageHelper;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -10,7 +11,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -65,7 +65,7 @@ public class PlayerEvents {
         Optional<Boolean> protectionStatus = SpawnProtection.isProtected(serverWorld, target, serverPlayer);
         if(protectionStatus.isPresent() && protectionStatus.get()) {
             if(Reference.getConfig().getOrDefault(serverWorld).actionBar) {
-                serverPlayer.sendMessage(new TranslatableText(intent.getTranslationKey()), true);
+                serverPlayer.sendMessage(LanguageHelper.getOptionalTranslation(intent.getTranslationKey()), true);
             }
             return false;
         }

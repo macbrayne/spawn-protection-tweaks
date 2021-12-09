@@ -7,10 +7,10 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import de.macbrayne.fabric.spawnprotectiontweaks.Reference;
 import de.macbrayne.fabric.spawnprotectiontweaks.events.ServerLifecycle;
+import de.macbrayne.fabric.spawnprotectiontweaks.utils.LanguageHelper;
 import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.TranslatableText;
 
 public class CommandRegistry {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, @SuppressWarnings("unused") boolean dedicated) {
@@ -33,7 +33,7 @@ public class CommandRegistry {
     private static Command<ServerCommandSource> printHelp() {
         return context -> {
             ServerCommandSource source = context.getSource();
-            source.sendFeedback(new TranslatableText("commands.spawnprotectiontweaks", Reference.MOD_VERSION, Reference.getConfig().defaultConfig.actionBar, Reference.getConfig().defaultConfig.radius), false);
+            source.sendFeedback(LanguageHelper.getOptionalTranslation("commands.spawnprotectiontweaks", Reference.MOD_VERSION, Reference.getConfig().defaultConfig.actionBar, Reference.getConfig().defaultConfig.radius), false);
             return Command.SINGLE_SUCCESS;
         };
     }
@@ -57,7 +57,7 @@ public class CommandRegistry {
                 .literal("reload")
                 .requires(Permissions.require(PermissionsReference.RELOAD, 2))
                 .executes(context -> {
-                    context.getSource().sendFeedback(new TranslatableText("commands.spawnprotectiontweaks.reload"), true);
+                    context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation("commands.spawnprotectiontweaks.reload"), true);
                     ServerLifecycle.reloadConfig();
                     return Command.SINGLE_SUCCESS;
                 });
@@ -81,7 +81,7 @@ public class CommandRegistry {
                             Reference.getConfig().enabled = value;
                             ServerLifecycle.saveConfig();
                             String action = value ? "enable" : "disable";
-                            context.getSource().sendFeedback(new TranslatableText("commands.spawnprotectiontweaks." + action), true);
+                            context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation("commands.spawnprotectiontweaks." + action), true);
                             return Command.SINGLE_SUCCESS;
                         }));
     }
@@ -92,7 +92,7 @@ public class CommandRegistry {
                 .requires(Permissions.require(PermissionsReference.ENABLED.query, 2))
                 .executes(context -> {
                     final String translationKey = "commands.spawnprotectiontweaks.status." + (Reference.getConfig().enabled ? "enabled" : "disabled");
-                    context.getSource().sendFeedback(new TranslatableText(translationKey), false);
+                    context.getSource().sendFeedback(LanguageHelper.getOptionalTranslation(translationKey), false);
                     return Reference.getConfig().enabled ? 1 : 0;
                 });
     }
