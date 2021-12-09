@@ -59,7 +59,7 @@ public class PlayerEvents {
     private static boolean isAllowedAt(PlayerEntity playerEntity, World world, BlockPos target, PlayerPermissions intent) {
         ServerPlayerEntity serverPlayer = (ServerPlayerEntity) playerEntity;
         ServerWorld serverWorld = (ServerWorld) world;
-        if(!intent.isEnabled(serverWorld) || Permissions.check(playerEntity, intent.get(world))) {
+        if(!Reference.getConfig().enabled || !intent.isEnabled(serverWorld) || Permissions.check(playerEntity, intent.get(world))) {
             return true;
         }
         Optional<Boolean> protectionStatus = SpawnProtection.isProtected(serverWorld, target, serverPlayer);
@@ -78,12 +78,12 @@ public class PlayerEvents {
 
     // region Permissions
     private enum PlayerPermissions {
-        ATTACK_BLOCK(".attack.block", (world) -> Reference.getConfig().getDimension(world).preventAttackingBlocks),
-        ATTACK_ENTITY(".attack.entity", (world) -> Reference.getConfig().getDimension(world).preventAttackingEntities),
-        USE_BLOCK(".use.block", (world) -> Reference.getConfig().getDimension(world).preventUsingBlocks),
-        USE_ENTITY(".use.entity", (world) -> Reference.getConfig().getDimension(world).preventUsingEntities),
-        USE_ITEM(".use.item", (world) -> Reference.getConfig().getDimension(world).preventUsingItems),
-        BREAK_BLOCK(".break.block", (world) -> Reference.getConfig().getDimension(world).preventBreakingBlocks  );
+        ATTACK_BLOCK(".attack.block", (world) -> Reference.getConfig().getDimension(world).advancedEventConfig.preventAttackingBlocks),
+        ATTACK_ENTITY(".attack.entity", (world) -> Reference.getConfig().getDimension(world).advancedEventConfig.preventAttackingEntities),
+        USE_BLOCK(".use.block", (world) -> Reference.getConfig().getDimension(world).advancedEventConfig.preventUsingBlocks),
+        USE_ENTITY(".use.entity", (world) -> Reference.getConfig().getDimension(world).advancedEventConfig.preventUsingEntities),
+        USE_ITEM(".use.item", (world) -> Reference.getConfig().getDimension(world).advancedEventConfig.preventUsingItems),
+        BREAK_BLOCK(".break.block", (world) -> Reference.getConfig().getDimension(world).advancedEventConfig.preventBreakingBlocks);
 
         private static final String MODULE = Reference.MOD_ID + ".interaction";
         private final Function<ServerWorld, Boolean> configSupplier;

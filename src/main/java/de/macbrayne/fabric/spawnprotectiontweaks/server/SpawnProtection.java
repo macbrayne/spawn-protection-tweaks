@@ -14,13 +14,17 @@ import java.util.Optional;
 
 public class SpawnProtection {
     public static void isSpawnProtected(ServerWorld world, BlockPos pos, PlayerEntity player, CallbackInfoReturnable<Boolean> cir) {
-        Optional<Boolean> protectionStatus = isProtected(world, pos, player);
-        protectionStatus.ifPresent(result -> {
-            if(result && Reference.getConfig().getOrDefault(world).actionBar) {
-                player.sendMessage(new TranslatableText("actionbar.spawnprotectiontweaks.interaction.attack.block"), true);
-            }
-            cir.setReturnValue(result);
-        });
+        if(!Reference.getConfig().advancedEventOptions) {
+            Optional<Boolean> protectionStatus = isProtected(world, pos, player);
+            protectionStatus.ifPresent(result -> {
+                if (result && Reference.getConfig().getOrDefault(world).actionBar) {
+                    player.sendMessage(new TranslatableText("actionbar.spawnprotectiontweaks.interaction.attack.block"), true);
+                }
+                cir.setReturnValue(result);
+            });
+        } else {
+            cir.setReturnValue(false);
+        }
     }
 
     public static Optional<Boolean> isProtected(ServerWorld world, BlockPos pos, PlayerEntity player) {

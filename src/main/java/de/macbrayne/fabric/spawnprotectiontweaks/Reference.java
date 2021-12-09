@@ -1,5 +1,6 @@
 package de.macbrayne.fabric.spawnprotectiontweaks;
 
+import de.macbrayne.fabric.spawnprotectiontweaks.events.ServerLifecycle;
 import de.macbrayne.fabric.spawnprotectiontweaks.utils.ModConfig;
 import net.fabricmc.loader.api.FabricLoader;
 
@@ -10,6 +11,9 @@ public class Reference {
     public static final String MOD_VERSION = FabricLoader.getInstance().getModContainer(Reference.MOD_ID).get().getMetadata().getVersion().getFriendlyString();
 
     public static ModConfig getConfig() {
+        if(config == null) {
+            ServerLifecycle.reloadConfig();
+        }
         return config;
     }
 

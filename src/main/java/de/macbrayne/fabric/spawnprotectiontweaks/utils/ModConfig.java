@@ -9,7 +9,8 @@ import net.minecraft.world.World;
 import java.util.HashMap;
 
 public class ModConfig {
-    public boolean enabled = false;
+    public boolean enabled = true;
+    public boolean advancedEventOptions = false;
     public String alias = "spt";
     public DimensionConfig defaultConfig = getDefaultDefaultConfig();
     public final HashMap<String, DimensionConfig> dimensions = new HashMap<>();
@@ -25,14 +26,18 @@ public class ModConfig {
         }
 
         public BlockPos centre;
+        public final EventConfig advancedEventConfig = new EventConfig();
         public float radius;
         public boolean actionBar;
-        public boolean preventAttackingBlocks;
-        public boolean preventUsingBlocks;
-        public boolean preventAttackingEntities;
-        public boolean preventUsingEntities;
-        public boolean preventUsingItems;
-        public boolean preventBreakingBlocks;
+
+        public static class EventConfig {
+            public boolean preventAttackingBlocks;
+            public boolean preventUsingBlocks;
+            public boolean preventAttackingEntities;
+            public boolean preventUsingEntities;
+            public boolean preventUsingItems;
+            public boolean preventBreakingBlocks;
+        }
     }
 
     public void addDimension(Identifier identifier) {
