@@ -97,7 +97,7 @@ public class PlayerEvents {
         }
 
         public String get(final World world) {
-            return MODULE + getWorldId(world) + value;
+            return MODULE + "." + getWorldId(world) + "." + value;
         }
 
         public String getTranslationKey() {
