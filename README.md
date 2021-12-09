@@ -21,6 +21,9 @@ SpawnProtectionTweaks supports permissions mods like LuckPerms and other mods su
 The permission nodes are formatted in the form ``spawnprotectiontweaks.<subcommand>.<operation>``
 I.e. ``spawnprotectiontweaks.dimensions.list``
 
+There is an override permission allowing players to bypass spawn protection:
+``spawnprotectiontweaks.override``.
+
 ## [Releases](https://github.com/macbrayne/spawn-protection-tweaks/releases)
 
 The mod is licensed under the [MIT License](LICENSE)
