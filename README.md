@@ -18,6 +18,11 @@ Currently, only ``en_us`` is supported though.~~
 Due to incompatibilities with specific fabric-api versions that feature has been put on ice.
 Version 0.4 introduced that feature, version 0.4.1 removed it.
 
+## Version support
+
+With the release of 1.18, the 1.17 version will only be fully supported until the end of January 2022
+with potential bugs being fixed until the end of March 2022.
+
 ## Permissions
 
 SpawnProtectionTweaks supports permissions mods like LuckPerms and other mods supporting the [Fabric Permission API](https://github.com/lucko/fabric-permissions-api).
