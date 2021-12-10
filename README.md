@@ -12,8 +12,11 @@ This mod adds the ability for fabric servers to change spawn protection settings
 The only difference in behaviour is that compatible clients are not bound to the ``en_us`` locale
 and can get translations based on their selected language.~~
 
-Since version 0.4 this is no longer the case. The server will detect the client's set language and use it to translate the messages.
-Currently, only ``en_us`` is supported though.
+~~Since version 0.4 this is no longer the case. The server will detect the client's set language and use it to translate the messages.
+Currently, only ``en_us`` is supported though.~~
+
+Due to incompatibilities with specific fabric-api versions that feature has been put on ice.
+Version 0.4 introduced that feature, version 0.4.1 removed it.
 
 ## Permissions
 
